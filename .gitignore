@@ -1,0 +1,13 @@
+/.idea
+
+/server/.development.env
+/server/.production.env
+/server/node_modules/
+/server/dist/
+/server/.env
+
+/client/node_modules
+/client/.next
+/client/public
+/client/next-env.d.ts
+/client/.env
