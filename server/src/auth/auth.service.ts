@@ -1,64 +1,85 @@
-import {Body, HttpException, HttpStatus, Injectable, Post, UnauthorizedException} from '@nestjs/common';
-import {CreateMessageDto} from "../messages/dto/create-message.dto";
-import {UsersService} from "../users/users.service";
-import {JwtService} from "@nestjs/jwt";
-import * as bcrypt from 'bcryptjs';
-import {User} from "../users/schemas/user.schema";
-import {CreateUserDto} from "../users/dto/create-user.dto";
-import {LoginDto} from "./dto/login.dto";
-import {RegDto} from "./dto/reg.dto";
+import {
+    ConflictException,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../user/user.service';
+import { compare, hash } from 'bcrypt';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-
     constructor(
-        private userService: UsersService,
-        private jwtService: JwtService
+        private userService: UserService,
+        private jwtService: JwtService,
     ) {}
 
-    async login(loginDto: LoginDto) {
-        const user = await this.validateUser(loginDto)
-        const accessToken = await (await this.generateToken(user)).token;
-        const rolesNames = user.roles.map((role) => role.value)
-        return {
-            id: user._id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            roles: rolesNames,
-            accessToken: accessToken,
-        }
-    }
-
     async registration(dto: CreateUserDto) {
-        const candidate = await this.userService.getUserByEmail(dto.email)
+        const candidate = await this.userService.getUserByEmail(dto.email);
         if (candidate) {
-            throw new HttpException('User with this email already exists', HttpStatus.BAD_REQUEST)
-        } else {
-            const hashPassword = await bcrypt.hash(dto.password, 5);
-            const user = await this.userService.createUser({...dto, password: hashPassword})
-            return this.generateToken(user)
+            throw new ConflictException('User with this email already exists');
         }
+        const user = await this.userService.createUser({
+            ...dto,
+            password: await hash(dto.password, 10),
+        });
+        return user;
     }
 
-    private async generateToken(user: User) {
+    async login(dto: LoginDto) {
+        const user = await this.validateUser(dto);
         const payload = {
-            last_name: user.last_name,
-            first_name: user.first_name,
             email: user.email,
-            roles: user.roles
-        }
+            sub: {
+                first_name: user.first_name,
+                last_name: user.last_name,
+            },
+        };
+
         return {
-            token: this.jwtService.sign(payload)
-        }
+            user,
+            backendTokens: {
+                accessToken: await this.jwtService.signAsync(payload, {
+                    expiresIn: '1d',
+                    secret: process.env.JWT_SECRET_KEY,
+                }),
+                refreshToken: await this.jwtService.signAsync(payload, {
+                    expiresIn: '7d',
+                    secret: process.env.JWT_REFRESH_TOKEN_KEY,
+                }),
+            },
+        };
     }
 
-    private async validateUser(loginDto: LoginDto) {
-        const user = await this.userService.getUserByEmail(loginDto.email)
-        const passwordEquals = await bcrypt.compare(loginDto.password, user.password);
+    private async validateUser(dto: LoginDto) {
+        const user = await this.userService.getUserByEmail(dto.email);
+        const passwordEquals = await compare(dto.password, user.password);
         if (user && passwordEquals) {
+            user.password = null;
             return user;
         }
-        throw new UnauthorizedException({message: 'Invalid email or password'})
+        throw new UnauthorizedException('Invalid email or password');
+    }
+
+    async refreshToken(user: any) {
+        const payload = {
+            email: user.email,
+            sub: {
+                first_name: user.first_name,
+                last_name: user.last_name,
+            },
+        };
+        return {
+            accessToken: await this.jwtService.signAsync(payload, {
+                expiresIn: '1d',
+                secret: process.env.JWT_SECRET_KEY,
+            }),
+            refreshToken: await this.jwtService.signAsync(payload, {
+                expiresIn: '7d',
+                secret: process.env.JWT_REFRESH_TOKEN_KEY,
+            }),
+        };
     }
 }
