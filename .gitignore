@@ -1,7 +1,5 @@
 /.idea
 
-/server/.development.env
-/server/.production.env
 /server/node_modules/
 /server/dist/
 /server/.env
