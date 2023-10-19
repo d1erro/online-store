@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Role } from './schemas/role.schema';
 import { CreateRoleDto } from './dto/create-role.dto';
 
@@ -14,6 +14,10 @@ export class RoleService {
     }
 
     async getRoleByValue(value: string): Promise<Role> {
-        return this.roleModel.findOne({ value: value }).exec();
+        return this.roleModel.findOne({ value: value });
+    }
+
+    async getRoleById(id: Types.ObjectId): Promise<Role> {
+        return this.roleModel.findOne({ _id: id });
     }
 }

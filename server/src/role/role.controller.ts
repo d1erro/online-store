@@ -3,9 +3,10 @@ import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Role } from './schemas/role.schema';
+import { Types } from 'mongoose';
 
-@ApiTags('Role')
-@Controller('role')
+@ApiTags('Roles')
+@Controller('roles')
 export class RoleController {
     constructor(private readonly roleService: RoleService) {}
 
@@ -16,10 +17,10 @@ export class RoleController {
         return this.roleService.createRole(dto);
     }
 
-    @ApiOperation({ summary: 'Get role by value' })
+    @ApiOperation({ summary: 'Get role by id' })
     @ApiResponse({ status: 200, type: Role })
-    @Get(':value')
-    getRole(@Param('value') value: string) {
-        return this.roleService.getRoleByValue(value);
+    @Get(':id')
+    getRole(@Param('id') id: Types.ObjectId) {
+        return this.roleService.getRoleById(id);
     }
 }

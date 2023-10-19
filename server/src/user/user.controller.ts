@@ -1,21 +1,23 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './schemas/user.schema';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/create-user.dto';
 import { JwtGuard } from '../auth/guards/jwt.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CurrentUserJwtGuard } from './guards/current-user-jwt.guard';
 
-@ApiTags('User')
-@Controller('/user')
+@ApiTags('Users')
+@Controller('/users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
-
-    // @ApiOperation({ summary: 'Create user' })
-    // @ApiResponse({ status: 200, type: User })
-    // @Post()
-    // async create(@Body() createUserDto: CreateUserDto) {
-    //     return this.userService.createUser(createUserDto);
-    // }
 
     @ApiOperation({ summary: 'Get user by id' })
     @ApiResponse({ status: 200, type: User })
@@ -25,10 +27,21 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-    // @ApiOperation({ summary: 'Get all users' })
-    // @ApiResponse({ status: 200, type: [User] })
-    // @Get()
-    // async getAll(): Promise<User[]> {
-    //     return this.userService.getAllUsers();
-    // }
+    @ApiOperation({ summary: 'Update user info' })
+    @ApiResponse({ status: 200, type: User })
+    @UseGuards(CurrentUserJwtGuard)
+    @Put(':id/update-info')
+    async updateUserInfo(
+        @Param('id') id: string,
+        @Body() dto: UpdateUserDto,
+    ): Promise<User> {
+        return this.userService.updateUser(id, dto);
+    }
+
+    @ApiOperation({ summary: 'Get all users' })
+    @ApiResponse({ status: 200, type: [User] })
+    @Get()
+    async getAll(): Promise<User[]> {
+        return this.userService.getAllUsers();
+    }
 }

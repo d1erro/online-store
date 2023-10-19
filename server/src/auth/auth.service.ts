@@ -9,6 +9,8 @@ import { compare, hash } from 'bcrypt';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 
+const EXPIRE_TIME = 86400000;
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -31,6 +33,7 @@ export class AuthService {
     async login(dto: LoginDto) {
         const user = await this.validateUser(dto);
         const payload = {
+            id: user._id,
             email: user.email,
             sub: {
                 first_name: user.first_name,
@@ -49,22 +52,32 @@ export class AuthService {
                     expiresIn: '7d',
                     secret: process.env.JWT_REFRESH_TOKEN_KEY,
                 }),
+                expiresIn: new Date().setTime(
+                    new Date().getTime() + EXPIRE_TIME,
+                ),
             },
         };
     }
 
     private async validateUser(dto: LoginDto) {
         const user = await this.userService.getUserByEmail(dto.email);
+        if (!user)
+            throw new UnauthorizedException({
+                message: 'User with this email does not exist',
+            });
         const passwordEquals = await compare(dto.password, user.password);
         if (user && passwordEquals) {
             user.password = null;
             return user;
         }
-        throw new UnauthorizedException('Invalid email or password');
+        throw new UnauthorizedException({
+            message: 'Invalid email or password',
+        });
     }
 
     async refreshToken(user: any) {
         const payload = {
+            id: user._id,
             email: user.email,
             sub: {
                 first_name: user.first_name,
@@ -80,6 +93,7 @@ export class AuthService {
                 expiresIn: '7d',
                 secret: process.env.JWT_REFRESH_TOKEN_KEY,
             }),
+            expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
         };
     }
 }
