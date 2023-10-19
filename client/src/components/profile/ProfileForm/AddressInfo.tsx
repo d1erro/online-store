@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import ProfileTextField from '@/components/ui/ProfileTextField/ProfileTextField';
-import { updateUser } from '@/app/api/user/update-user';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Session } from 'next-auth';
 import { updateAddress } from '@/app/api/user/update-address';
@@ -19,29 +18,34 @@ interface IAddressInfoProps {
 }
 
 const AddressInfo: FC<IAddressInfoProps> = ({ session, update }) => {
-    const [address, setAddress] = useState<object | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [address, setAddress] = useState<object>({});
+
+    const updateValues = (address: any) => {
+        setValue('region', address.region)
+        setValue('city', address.city)
+        setValue('street', address.street)
+        setValue('index', address.index)
+    }
 
     useEffect(() => {
-        const fetchAddress = async () => {
-            const addressData = await getAddressById(
-                session.user.addresses[0],
-                session.backendTokens.accessToken,
-            );
-            setAddress(addressData);
-        };
+        getAddressById(session.user.addresses[0], session.backendTokens.accessToken)
+            .then((data) => {
+                setAddress(data)
+                updateValues(data)
+            })
+    }, []);
 
-        fetchAddress();
-        setLoading(false);
-    });
 
     const [disabled, setDisabled] = useState<boolean>(true);
 
-    const { control, handleSubmit } = useForm({});
+    const { control, handleSubmit, setValue } = useForm({
+        defaultValues: {
+            region: address.region
+        }
+    });
 
     const onSubmit: SubmitHandler<IAddressInfoFormInput> = (data) => {
         setDisabled(true);
-        console.log(data);
         updateAddress(address._id, data, session.backendTokens.accessToken);
     };
 
@@ -67,7 +71,6 @@ const AddressInfo: FC<IAddressInfoProps> = ({ session, update }) => {
                                 {...field}
                                 id="region"
                                 label="Регион"
-                                defaultValue={address ? address.region : ''}
                                 disabled={disabled}
                             />
                         )}
@@ -81,7 +84,6 @@ const AddressInfo: FC<IAddressInfoProps> = ({ session, update }) => {
                                 {...field}
                                 id="city"
                                 label="Город"
-                                defaultValue={address ? address.city : ''}
                                 disabled={disabled}
                             />
                         )}
@@ -97,7 +99,6 @@ const AddressInfo: FC<IAddressInfoProps> = ({ session, update }) => {
                                 {...field}
                                 id="street"
                                 label="Улица, дом, квартира"
-                                defaultValue={address ? address.street : ''}
                                 disabled={disabled}
                             />
                         )}
@@ -111,7 +112,6 @@ const AddressInfo: FC<IAddressInfoProps> = ({ session, update }) => {
                                 {...field}
                                 id="index"
                                 label="Индекс"
-                                defaultValue={address ? address.index : ''}
                                 disabled={disabled}
                             />
                         )}

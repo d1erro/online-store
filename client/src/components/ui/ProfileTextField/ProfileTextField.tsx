@@ -17,6 +17,7 @@ const ProfileTextField: FC<IProfileTextFieldProps> = ({
 }) => {
     return (
         <TextField
+            InputLabelProps={{ shrink: true }}
             sx={{
                 width: 500,
                 maxWidth: '100%',
