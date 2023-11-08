@@ -11,7 +11,7 @@ export const updateUser = async (
     accessToken: string,
 ) => {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${id}/update-info`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${id}/update-info`,
         {
             method: 'PUT',
             headers: {

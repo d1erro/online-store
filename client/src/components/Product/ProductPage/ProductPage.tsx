@@ -46,8 +46,8 @@ async function ProductPage({ productId }: { productId: string }) {
             </div>
 
             <div className="mt-20 bg-black rounded-xl">
-                {product.characteristics.map((characteristic) => (
-                    <div className="flex flex-col">
+                {product.characteristics.map((characteristic, i) => (
+                    <div key={i} className="flex flex-col">
                         <div className="flex flex-row">
                             <div className="p-5 w-full text-center">
                                 <span className="block bg-white rounded py-2">

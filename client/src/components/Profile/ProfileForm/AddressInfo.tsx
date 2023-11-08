@@ -1,11 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import ProfileTextField from '@/ui/ProfileTextField/ProfileTextField';
-import {
-    Controller,
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Session } from 'next-auth';
 import { updateAddress } from '@/http/users/update-address';
 import { getAddressById } from '@/http/users/get-address-by-id';
@@ -50,7 +45,7 @@ const AddressInfo: FC<IAddressInfoProps> = ({ session }) => {
             setAddress(data);
             updateValues(data);
         });
-    }, [session.user.addresses, session.backendTokens.accessToken]);
+    }, []);
 
     const [disabled, setDisabled] = useState<boolean>(true);
 

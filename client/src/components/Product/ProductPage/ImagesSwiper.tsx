@@ -27,8 +27,8 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
                 modules={[Pagination, Navigation]}
                 className="mySwiper"
             >
-                {images.map((image) => (
-                    <SwiperSlide>
+                {images.map((image, i) => (
+                    <SwiperSlide key={i}>
                         <Image
                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${image}`}
                             loading="lazy"

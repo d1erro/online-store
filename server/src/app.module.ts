@@ -10,14 +10,14 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { resolve } from 'path';
+import { join } from 'path';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
         MongooseModule.forRoot(process.env.DATABASE_URL),
         ServeStaticModule.forRoot({
-            rootPath: resolve(__dirname, 'static'),
+            rootPath: join(__dirname, '..', 'static'),
         }),
         UserModule,
         RoleModule,

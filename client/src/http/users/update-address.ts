@@ -14,7 +14,7 @@ export const updateAddress = async (
     accessToken: string,
 ) => {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/addresses/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/addresses/${id}`,
         {
             method: 'PUT',
             headers: {
