@@ -1,7 +1,6 @@
 import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '../../role/schemas/role.schema';
 import { IsPhoneNumber } from 'class-validator';
 import { Address } from '../../address/schemas/address.schema';
 
@@ -17,7 +16,7 @@ export class User {
     @Prop({ default: null })
     last_name: string;
 
-    @ApiProperty({ example: 'user@mail.ru', description: 'E-mail' })
+    @ApiProperty({ example: 'users@mail.ru', description: 'E-mail' })
     @Prop({ required: true, unique: true })
     email: string;
 

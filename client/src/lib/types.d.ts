@@ -5,7 +5,8 @@ export type User = {
     last_name: string;
     full_name: string;
     phone: string;
-    role: Role;
+    role: string;
+    addresses: string[];
 };
 
 interface Role {

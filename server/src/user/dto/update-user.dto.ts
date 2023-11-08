@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsPhoneNumber, Length } from 'class-validator';
 
 export class UpdateUserDto {
-    @ApiProperty({ example: 'user@mail.ru', description: 'Электронная почта' })
+    @ApiProperty({ example: 'users@mail.ru', description: 'Электронная почта' })
     @IsEmail({}, { message: '$property - Некорректный email' })
     email: string;
 

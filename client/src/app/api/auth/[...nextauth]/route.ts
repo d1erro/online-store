@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials, req) {
                 if (!credentials?.email || !credentials?.password) return null;
                 const res = await fetch(
-                    process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/login',
+                    process.env.NEXT_PUBLIC_BACKEND_URL + '/api/auth/login',
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
 
 async function refreshToken(token: JWT): Promise<JWT> {
     const res = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/refresh',
+        process.env.NEXT_PUBLIC_BACKEND_URL + '/api/auth/refresh',
         {
             method: 'POST',
             headers: {

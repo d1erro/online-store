@@ -1,7 +1,6 @@
-import React from 'react';
-import Profile from '@/components/profile/Profile';
+import Profile from '@/components/Profile/Profile';
 
-const Page: React.FC = () => {
+const Page = () => {
     return <Profile />;
 };
 

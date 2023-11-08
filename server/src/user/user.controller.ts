@@ -19,7 +19,7 @@ import { CurrentUserJwtGuard } from './guards/current-user-jwt.guard';
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @ApiOperation({ summary: 'Get user by id' })
+    @ApiOperation({ summary: 'Get users by id' })
     @ApiResponse({ status: 200, type: User })
     @UseGuards(JwtGuard)
     @Get(':id')
@@ -27,7 +27,7 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-    @ApiOperation({ summary: 'Update user info' })
+    @ApiOperation({ summary: 'Update users info' })
     @ApiResponse({ status: 200, type: User })
     @UseGuards(CurrentUserJwtGuard)
     @Put(':id/update-info')
