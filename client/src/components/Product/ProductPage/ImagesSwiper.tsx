@@ -32,8 +32,8 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${image}`}
                         loading="lazy"
                         alt=""
-                        width={550}
-                        height={700}
+                        width={500}
+                        height={500}
                     />
                     <div className="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                 </SwiperSlide>

@@ -7,16 +7,19 @@ export interface IGetAddressById {
 }
 
 export const getAddressById = async (id: string, accessToken: string) => {
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/addresses/${id}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/addresses/${id}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
             },
-        },
-    );
-    const address = await response.json();
-    return address;
+        );
+        return response.json();
+    } catch (e) {
+        console.error(e);
+    }
 };

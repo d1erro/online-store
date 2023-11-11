@@ -6,8 +6,6 @@ import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import AuthProvider from '@/providers/AuthProvider';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 import MyThemeProvider from '@/providers/MyThemeProvider';
 import { CssBaseline } from '@mui/material';
 
@@ -32,7 +30,7 @@ export default async function RootLayout({
 }) {
     const session = await getServerSession(authOptions);
     return (
-        <html lang="en" className={`${bebasNeue.variable}`}>
+        <html lang="ru" className={`${bebasNeue.variable}`}>
             <body className={inter.className}>
                 <AuthProvider session={session}>
                     <MyThemeProvider>

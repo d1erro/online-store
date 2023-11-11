@@ -2,6 +2,7 @@ import { getProductById } from '@/http/products/get-product-by-id';
 import { IProduct } from '@/types/Product/IProduct';
 import ImageSlider from '@/components/Product/ProductPage/ImagesSwiper';
 import CartCount from '@/components/Product/ProductPage/CartCount';
+import { formatPrice } from '@/utils/format-price';
 
 async function ProductPage({ productId }: { productId: string }) {
     const product: IProduct = await getProductById(productId);
@@ -32,7 +33,7 @@ async function ProductPage({ productId }: { productId: string }) {
                     <p className="mb-8">{`${product.description}`}</p>
 
                     <div className="max-w-max bg-black text-white text-3xl mb-10 rounded-xl px-14 py-3">
-                        <span>{product.price} ₽</span>
+                        <span>{formatPrice.format(product.price)}</span>
                     </div>
 
                     <div className="flex gap-8">

@@ -5,7 +5,7 @@ import { IProduct } from '@/types/Product/IProduct';
 async function ProductList() {
     const products: IProduct[] = await getProducts();
 
-    if (products.length > 0) {
+    if (products && products.length > 0) {
         return (
             <div className="mt-10 grid grid-cols-3 gap-5">
                 {products.map((product: IProduct) => {
