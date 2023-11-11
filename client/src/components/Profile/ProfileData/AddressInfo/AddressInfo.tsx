@@ -21,6 +21,16 @@ const AddressInfo = ({ session }: { session: Session }) => {
     const [snackBarIsSuccess, setSnackBarIsSuccess] = useState<boolean>(false);
     const [snackBarMessage, setSnackBarMessage] = useState<string>('');
 
+    const {
+        control,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+        clearErrors,
+    } = useForm({
+        resolver: zodResolver(schemaAddressInfoForm),
+    });
+
     const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -40,16 +50,6 @@ const AddressInfo = ({ session }: { session: Session }) => {
             setValue('index', res.index);
         });
     }, []);
-
-    const {
-        control,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-        clearErrors,
-    } = useForm({
-        resolver: zodResolver(schemaAddressInfoForm),
-    });
 
     const onSubmit: SubmitHandler<IAddressInfo> = async (data) => {
         await updateAddress(

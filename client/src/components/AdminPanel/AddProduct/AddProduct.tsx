@@ -1,22 +1,36 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import addProduct from '@/http/products/add-product';
 import { ICharacteristic } from '@/types/Product/ICharacteristic';
 import getBrands from '@/http/brands/get-brands';
 import getCategories from '@/http/categories/get-categories';
 import { Brand, Category } from '@/types/AdminPanel/AdminPanel.types';
-import AddProductForm from '@/components/AdminPanel/AddProduct/AddProductForm';
-import { z } from 'zod';
+import AddProductForm from '@/components/AdminPanel/AddProduct/AddProductForm/AddProductForm';
+import { IProductInfo } from '@/types/AdminPanel/IProductInfo.types';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const schemaAddProductForm = z.object({});
+import { schemaAddProductForm } from '@/components/AdminPanel/AddProduct/AddProductForm/schemaAddProductForm';
+import CustomSnackbar from '@/ui/CustomSnackbar/CustomSnackbar';
 
 const AddProduct = () => {
+    const [loading, setLoading] = useState(true);
     const [brands, setBrands] = useState<Brand[] | []>([]);
     const [categories, setCategories] = useState<Category[] | []>([]);
-    const [loading, setLoading] = useState(true);
+    const [characteristics, setCharacteristics] = useState<
+        ICharacteristic[] | []
+    >([]);
+    const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
+    const [snackBarIsSuccess, setSnackBarIsSuccess] = useState<boolean>(false);
+    const [snackBarMessage, setSnackBarMessage] = useState<string>('');
+
+    const {
+        control,
+        handleSubmit,
+        register,
+        formState: { errors },
+        reset,
+    } = useForm({ resolver: zodResolver(schemaAddProductForm) });
 
     useEffect(() => {
         const brands = getBrands().then((res) => {
@@ -27,10 +41,6 @@ const AddProduct = () => {
         });
         setLoading(false);
     }, []);
-
-    const [characteristics, setCharacteristics] = useState<
-        ICharacteristic[] | []
-    >([]);
 
     const addCharacteristic = () => {
         setCharacteristics([
@@ -55,11 +65,14 @@ const AddProduct = () => {
         setCharacteristics(characteristics.filter((i) => i.number !== number));
     };
 
-    const { control, handleSubmit, register } = useForm({
-        resolver: zodResolver(schemaAddProductForm),
-    });
+    const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackBarIsOpen(false);
+    };
 
-    const onSubmit = async (data: any) => {
+    const onSubmit: SubmitHandler<IProductInfo> = async (data) => {
         const formData = new FormData();
         formData.append('title', data.title);
         formData.append('description', data.description);
@@ -71,7 +84,32 @@ const AddProduct = () => {
         for (let image of data.images) {
             formData.append('images', image);
         }
-        await addProduct(formData);
+        await addProduct(formData).then((res) => {
+            if (res && res._id) {
+                setSnackBarIsSuccess(true);
+                setSnackBarMessage(`Продукт "${res.title}" успешно сохранен`);
+                setSnackBarIsOpen(true);
+                reset({
+                    title: '',
+                    description: '',
+                    price: '',
+                    inStock: '',
+                    images: null,
+                    category: '',
+                    brand: '',
+                });
+                setCharacteristics([]);
+            }
+            if (res && !res._id) {
+                setSnackBarIsSuccess(false);
+                if (Array.isArray(res.message)) {
+                    setSnackBarMessage(res.message[0]);
+                } else {
+                    setSnackBarMessage(res.message);
+                }
+                setSnackBarIsOpen(true);
+            }
+        });
     };
 
     if (loading) {
@@ -79,18 +117,28 @@ const AddProduct = () => {
     }
 
     return (
-        <AddProductForm
-            control={control}
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            categories={categories}
-            brands={brands}
-            characteristics={characteristics}
-            addCharacteristic={addCharacteristic}
-            changeCharacteristic={changeCharacteristic}
-            removeCharacteristic={removeCharacteristic}
-        />
+        <>
+            <AddProductForm
+                control={control}
+                register={register}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                categories={categories}
+                brands={brands}
+                characteristics={characteristics}
+                addCharacteristic={addCharacteristic}
+                changeCharacteristic={changeCharacteristic}
+                removeCharacteristic={removeCharacteristic}
+                errors={errors}
+            />
+
+            <CustomSnackbar
+                open={snackBarIsOpen}
+                handleClose={handleClose}
+                message={snackBarMessage}
+                success={snackBarIsSuccess}
+            />
+        </>
     );
 };
 

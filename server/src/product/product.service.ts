@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,6 +15,14 @@ export class ProductService {
 
     async create(dto: CreateProductDto, images) {
         try {
+            const findProduct = await this.productRepository.findOne({
+                title: dto.title,
+            });
+            if (findProduct) {
+                throw new ConflictException(
+                    'Продукт с таким названием уже существует',
+                );
+            }
             const fileNames = this.fileService.createFile(images);
             const createdProduct = new this.productRepository(dto);
             createdProduct.images = fileNames;
@@ -26,7 +34,7 @@ export class ProductService {
             createdProduct.category = new Types.ObjectId(dto.category);
             return createdProduct.save();
         } catch (error) {
-            throw new HttpException(error, 500);
+            return error;
         }
     }
 

@@ -62,7 +62,13 @@ function AddProductForm({
                         getOptionLabel={(option) => option.value}
                         onChange={(_, data) => field.onChange(data._id)}
                         renderInput={(params) => (
-                            <TextField {...params} label="Категория" />
+                            <TextField
+                                {...params}
+                                id="category"
+                                label="Категория"
+                                error={!!errors.category}
+                                helperText={errors.category?.message}
+                            />
                         )}
                     />
                 )}
@@ -80,7 +86,13 @@ function AddProductForm({
                         getOptionLabel={(option) => option.value}
                         onChange={(_, data) => field.onChange(data._id)}
                         renderInput={(params) => (
-                            <TextField {...params} label="Бренд" />
+                            <TextField
+                                {...params}
+                                id="brand"
+                                label="Бренд"
+                                error={!!errors.brand}
+                                helperText={errors.brand?.message}
+                            />
                         )}
                     />
                 )}
@@ -149,7 +161,8 @@ function AddProductForm({
                 placeholder="Выберите изображения"
                 type="file"
                 multiple
-                accept="image/jpg"
+                accept="image/jpeg"
+                required={true}
             />
 
             {errors.images && <p>{errors.images.message}</p>}

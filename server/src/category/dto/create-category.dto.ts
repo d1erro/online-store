@@ -8,7 +8,7 @@ export class CreateCategoryDto {
         description: 'Наименование категории',
     })
     @Length(1, 32, {
-        message: '$property - Не меньше 1 и не больше 32 символов',
+        message: 'Поле $property - Не меньше 1 и не больше 32 символов',
     })
     @Prop({ required: true, unique: true })
     value: string;

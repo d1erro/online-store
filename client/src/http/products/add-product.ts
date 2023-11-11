@@ -4,8 +4,7 @@ async function addProduct(product: FormData) {
         body: product,
     })
         .then((res) => res.json())
-        .then((json) => console.log(json))
-        .catch((err) => console.log(err));
+        .catch((err) => err);
 }
 
 export default addProduct;

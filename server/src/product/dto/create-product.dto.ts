@@ -23,8 +23,10 @@ export class CreateProductDto {
         плавную работу.`,
         description: 'Описание товара',
     })
-    @IsString({ message: 'Должно быть строкой' })
-    @Length(100, 5000, { message: 'Не меньше 100 и не больше 5000 символов' })
+    @IsString({ message: 'Поле $property - Должно быть строкой' })
+    @Length(100, 5000, {
+        message: 'Поле $property - Не меньше 100 и не больше 5000 символов',
+    })
     @Prop({ required: true })
     description: string;
 
@@ -32,7 +34,9 @@ export class CreateProductDto {
         example: 39999,
         description: 'Цена товара',
     })
-    @Length(1, 20, { message: 'Не меньше 1 и не больше 20 символов' })
+    @Length(1, 20, {
+        message: 'Поле $property - Не меньше 1 и не больше 20 символов',
+    })
     @Prop({ required: true })
     price: number;
 
@@ -40,8 +44,10 @@ export class CreateProductDto {
         example: 20,
         description: 'Количество товара на складе',
     })
-    @Length(1, 20, { message: 'Не меньше 1 и не больше 20 символов' })
-    @IsNumberString({}, { message: 'inStock должно быть числом' })
+    @Length(1, 20, {
+        message: 'Поле $property - Не меньше 1 и не больше 20 символов',
+    })
+    @IsNumberString({}, { message: 'Поле $property - Должно быть числом' })
     @Prop({ required: true })
     inStock: number;
 

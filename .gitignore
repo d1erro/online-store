@@ -3,6 +3,7 @@
 /server/node_modules/
 /server/dist/
 /server/.env
+/server/static/*.jpg
 
 /client/node_modules
 /client/.next
