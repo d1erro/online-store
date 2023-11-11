@@ -24,7 +24,7 @@ export class CreateProductDto {
         description: 'Описание товара',
     })
     @IsString({ message: 'Должно быть строкой' })
-    @Length(8, 5000, { message: 'Не меньше 8 и не больше 500 символов' })
+    @Length(100, 5000, { message: 'Не меньше 100 и не больше 5000 символов' })
     @Prop({ required: true })
     description: string;
 

@@ -1,4 +1,9 @@
-import { Controller } from 'react-hook-form';
+import {
+    Controller,
+    ErrorOption,
+    FieldError,
+    FieldErrors,
+} from 'react-hook-form';
 import { Autocomplete, Stack, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Brand, Category } from '@/types/AdminPanel/AdminPanel.types';
@@ -24,6 +29,7 @@ interface IAddProductFormProps {
         number: number,
     ) => void;
     removeCharacteristic: (number: number) => void;
+    errors: any;
 }
 
 function AddProductForm({
@@ -37,6 +43,7 @@ function AddProductForm({
     addCharacteristic,
     changeCharacteristic,
     removeCharacteristic,
+    errors,
 }: IAddProductFormProps) {
     return (
         <form
@@ -83,7 +90,14 @@ function AddProductForm({
                 name="title"
                 control={control}
                 render={({ field }) => (
-                    <TextField {...field} label="Название" variant="outlined" />
+                    <TextField
+                        {...field}
+                        id="title"
+                        label="Название"
+                        variant="outlined"
+                        error={!!errors.title}
+                        helperText={errors.title?.message}
+                    />
                 )}
             />
 
@@ -91,30 +105,54 @@ function AddProductForm({
                 name="description"
                 control={control}
                 render={({ field }) => (
-                    <TextField {...field} label="Описание" />
+                    <TextField
+                        {...field}
+                        id="description"
+                        label="Описание"
+                        error={!!errors.description}
+                        helperText={errors.description?.message}
+                    />
                 )}
             />
 
             <Controller
                 name="price"
                 control={control}
-                render={({ field }) => <TextField {...field} label="Цена" />}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        id="price"
+                        label="Цена"
+                        error={!!errors.price}
+                        helperText={errors.price?.message}
+                    />
+                )}
             />
 
             <Controller
                 name="inStock"
                 control={control}
                 render={({ field }) => (
-                    <TextField {...field} label="В наличии" />
+                    <TextField
+                        {...field}
+                        id="inStock"
+                        label="В наличии"
+                        error={!!errors.inStock}
+                        helperText={errors.inStock?.message}
+                    />
                 )}
             />
 
             <input
                 {...register('images')}
+                id="images"
                 placeholder="Выберите изображения"
                 type="file"
                 multiple
+                accept="image/jpg"
             />
+
+            {errors.images && <p>{errors.images.message}</p>}
 
             <Button onClick={addCharacteristic}>Добавить характеристику</Button>
 

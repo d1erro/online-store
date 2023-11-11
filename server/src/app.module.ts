@@ -14,11 +14,11 @@ import { join } from 'path';
 
 @Module({
     imports: [
-        ConfigModule.forRoot(),
-        MongooseModule.forRoot(process.env.DATABASE_URL),
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'static'),
         }),
+        ConfigModule.forRoot(),
+        MongooseModule.forRoot(process.env.DATABASE_URL),
         UserModule,
         RoleModule,
         AuthModule,
