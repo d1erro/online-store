@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { IProduct } from '@/types/IProduct';
+import { IProduct } from '@/types/Product/IProduct';
 
 const ProductItem = ({ product }: { product: IProduct }) => {
     return (

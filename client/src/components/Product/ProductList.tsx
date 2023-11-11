@@ -1,6 +1,6 @@
 import { getProducts } from '@/http/products/get-products';
 import ProductItem from '@/components/Product/ProductItem';
-import { IProduct } from '@/types/IProduct';
+import { IProduct } from '@/types/Product/IProduct';
 
 async function ProductList() {
     const products: IProduct[] = await getProducts();

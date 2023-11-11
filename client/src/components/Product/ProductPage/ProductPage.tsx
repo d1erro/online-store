@@ -1,5 +1,5 @@
 import { getProductById } from '@/http/products/get-product-by-id';
-import { IProduct } from '@/types/IProduct';
+import { IProduct } from '@/types/Product/IProduct';
 import ImageSlider from '@/components/Product/ProductPage/ImagesSwiper';
 import CartCount from '@/components/Product/ProductPage/CartCount';
 

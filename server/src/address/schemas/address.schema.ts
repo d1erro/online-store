@@ -1,7 +1,7 @@
 import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumberString, Length } from 'class-validator';
+import { IsBoolean, IsNumberString, IsString, Length } from 'class-validator';
 
 export type AddressDocument = HydratedDocument<Address>;
 
@@ -21,6 +21,7 @@ export class Address {
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     @Prop({ default: null })
     region: string;
 
@@ -28,6 +29,7 @@ export class Address {
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     @Prop({ default: null })
     city: string;
 
@@ -35,6 +37,7 @@ export class Address {
         example: 'ул. Ленина, д. 1, кв. 2',
         description: 'Улица, дом, квартира',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
@@ -46,6 +49,7 @@ export class Address {
     @Length(6, 6, {
         message: '$property - Должно быть 6 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     @Prop({ default: null })
     index: string;
 

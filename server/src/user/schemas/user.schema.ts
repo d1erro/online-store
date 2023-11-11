@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsPhoneNumber } from 'class-validator';
 import { Address } from '../../address/schemas/address.schema';
+import { Role } from '../../role/schemas/role.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -24,7 +25,7 @@ export class User {
     @Prop({ required: true })
     password: string;
 
-    @ApiProperty({ example: Types.ObjectId, description: 'Role' })
+    @ApiProperty({ example: Role, description: 'Role' })
     @Prop({ type: Types.ObjectId, unique: false })
     role: Types.ObjectId;
 

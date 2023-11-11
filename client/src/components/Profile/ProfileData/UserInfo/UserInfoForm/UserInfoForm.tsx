@@ -1,50 +1,16 @@
-import { FC, useState } from 'react';
-import { IUserInfoProps } from '@/components/Profile/ProfileForm/ProfileForm.types';
+import { Controller } from 'react-hook-form';
 import ProfileTextField from '@/ui/ProfileTextField/ProfileTextField';
-import { updateUser } from '@/http/users/update-user';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { IUserInfoFormProps } from '@/types/Profile/UserInfo/UserInfo.types';
 
-interface IUserInfoFormInput {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-}
-
-const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
-    const [disabled, setDisabled] = useState<boolean>(true);
-    const { control, handleSubmit } = useForm({
-        defaultValues: {
-            first_name: session.user.first_name,
-            last_name: session.user.last_name,
-            email: session.user.email,
-            phone: session.user.phone,
-        },
-    });
-
-    const onSubmit: SubmitHandler<IUserInfoFormInput> = (data) => {
-        setDisabled(true);
-        updateUser(
-            session.user._id,
-            data,
-            session.backendTokens.accessToken,
-        ).then((user) => {
-            update({ ...session, user: user });
-        });
-    };
-
+function UserInfoForm({
+    disabled,
+    handleSubmit,
+    onSubmit,
+    errors,
+    control,
+}: IUserInfoFormProps) {
     return (
         <>
-            <header className="flex gap-3 items-center">
-                <h2 className="font-bold">Информация о покупателе</h2>
-                <button
-                    className="text-sm"
-                    onClick={() => setDisabled(!disabled)}
-                >
-                    {disabled ? 'Изменить' : 'Отменить'}
-                </button>
-            </header>
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex my-3 justify-between">
                     <Controller
@@ -56,6 +22,8 @@ const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
                                 id="first_name"
                                 label="Имя"
                                 disabled={disabled}
+                                error={!!errors.first_name}
+                                helperText={errors.first_name?.message}
                             />
                         )}
                     />
@@ -69,6 +37,8 @@ const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
                                 id="last_name"
                                 label="Фамилия"
                                 disabled={disabled}
+                                error={!!errors.last_name}
+                                helperText={errors.last_name?.message}
                             />
                         )}
                     />
@@ -84,6 +54,8 @@ const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
                                 id="email"
                                 label="Электронная почта"
                                 disabled={disabled}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
                             />
                         )}
                     />
@@ -97,6 +69,8 @@ const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
                                 id="phone"
                                 label="Телефон"
                                 disabled={disabled}
+                                error={!!errors.phone}
+                                helperText={errors.phone?.message}
                             />
                         )}
                     />
@@ -113,6 +87,6 @@ const UserInfo: FC<IUserInfoProps> = ({ session, update }) => {
             </form>
         </>
     );
-};
+}
 
-export default UserInfo;
+export default UserInfoForm;

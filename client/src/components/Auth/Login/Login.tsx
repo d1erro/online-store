@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ILoginFormInput } from '@/types/Login.types';
+import { ILoginFormInput } from '@/types/Login/Login.types';
 
 const LoginForm: FC = () => {
     const router = useRouter();

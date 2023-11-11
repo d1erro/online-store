@@ -17,7 +17,8 @@ export class BrandService {
     }
 
     findAll() {
-        return `This action returns all brand`;
+        const brands = this.brandRepository.find();
+        return brands;
     }
 
     findOne(id: number) {

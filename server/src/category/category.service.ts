@@ -17,7 +17,8 @@ export class CategoryService {
     }
 
     findAll() {
-        return `This action returns all category`;
+        const categories = this.categoryRepository.find();
+        return categories;
     }
 
     findOne(id: number) {

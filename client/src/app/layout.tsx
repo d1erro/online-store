@@ -6,6 +6,10 @@ import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import AuthProvider from '@/providers/AuthProvider';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
+import MyThemeProvider from '@/providers/MyThemeProvider';
+import { CssBaseline } from '@mui/material';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,8 +35,11 @@ export default async function RootLayout({
         <html lang="en" className={`${bebasNeue.variable}`}>
             <body className={inter.className}>
                 <AuthProvider session={session}>
-                    <Header />
-                    <main className="container mb-20">{children}</main>
+                    <MyThemeProvider>
+                        <CssBaseline />
+                        <Header />
+                        <main className="container mb-20">{children}</main>
+                    </MyThemeProvider>
                 </AuthProvider>
             </body>
         </html>

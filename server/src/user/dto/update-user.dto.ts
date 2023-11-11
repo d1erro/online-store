@@ -7,14 +7,14 @@ export class UpdateUserDto {
     email: string;
 
     @ApiProperty({ example: 'Tom', description: 'First Name' })
-    @Length(1, 32, {
-        message: '$property - Не меньше 1 и не больше 32 символов',
+    @Length(2, 32, {
+        message: '$property - Не меньше 2 и не больше 32 символов',
     })
     first_name: string;
 
     @ApiProperty({ example: 'Jackson', description: 'Last Name' })
-    @Length(1, 32, {
-        message: '$property - Не меньше 1 и не больше 32 символов',
+    @Length(2, 32, {
+        message: '$property - Не меньше 2 и не больше 32 символов',
     })
     last_name: string;
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, Length } from 'class-validator';
+import { IsBoolean, IsString, Length } from 'class-validator';
 import { IsNumberString } from 'class-validator';
 import { Prop } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
@@ -19,12 +19,14 @@ export class CreateAddressDto {
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     region: string;
 
     @ApiProperty({ example: 'Выборг', description: 'Город доставки' })
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     city: string;
 
     @ApiProperty({
@@ -34,12 +36,13 @@ export class CreateAddressDto {
     @Length(1, 32, {
         message: '$property - Не меньше 1 и не больше 32 символов',
     })
+    @IsString({ message: '$property - Должно быть строкой' })
     street: string;
 
     @ApiProperty({ example: 123456, description: 'Индекс доставки' })
     @IsNumberString({}, { message: '$property - Должен быть числом' })
     @Length(6, 6, {
-        message: '$property - Должно быть 6 символов',
+        message: '$property - Должно быть 6 цифр',
     })
     index: string;
 

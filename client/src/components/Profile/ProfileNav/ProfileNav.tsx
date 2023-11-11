@@ -1,12 +1,12 @@
-import React from 'react';
-import SignOutButton from '@/components/Profile/ProfileMenu/SignOutButton';
+import { FC } from 'react';
+import SignOutButton from '@/components/Profile/ProfileNav/SignOutButton';
 import Link from 'next/link';
 
 interface ProfileMenuProps {
     currentPage: string;
 }
 
-const ProfileMenu: React.FC<ProfileMenuProps> = ({ currentPage }) => {
+const ProfileNav: FC<ProfileMenuProps> = ({ currentPage }) => {
     return (
         <div className="flex flex-col items-center h-[300px] w-[250px]">
             <div className="flex flex-col justify-center gap-5 h-[300px] w-[250px] p-5 bg-black rounded-3xl">
@@ -18,7 +18,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ currentPage }) => {
                     )}
                 </Link>
                 <Link href="/admin" className="text-white">
-                    {currentPage === 'adminPanel' ? (
+                    {currentPage === 'admin' ? (
                         <p>- Админ панель</p>
                     ) : (
                         <p>Админ панель</p>
@@ -30,4 +30,4 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ currentPage }) => {
     );
 };
 
-export default ProfileMenu;
+export default ProfileNav;

@@ -1,74 +1,45 @@
-'use client';
-
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { Autocomplete, Stack, TextField } from '@mui/material';
-import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import addProduct from '@/http/products/add-product';
-import { ICharacteristic } from '@/types/ICharacteristic';
+import { Brand, Category } from '@/types/AdminPanel/AdminPanel.types';
 
-const brands = [
-    {
-        title: 'Samsung',
-        id: '653fa60c577a65583548fbe5',
-    },
-];
+export interface Characteristic {
+    title: string;
+    value: string;
+    number: number;
+}
 
-const categories = [
-    {
-        title: 'Корпуса',
-        id: '653faa0ced83013ae4f4aae0',
-    },
-];
-
-const AddProductForm = () => {
-    const [characteristics, setCharacteristics] = useState<
-        ICharacteristic[] | []
-    >([]);
-
-    const addCharacteristic = () => {
-        setCharacteristics([
-            ...characteristics,
-            { title: '', value: '', number: Date.now() },
-        ]);
-    };
-
-    const changeCharacteristic = (
-        key: string,
+interface IAddProductFormProps {
+    handleSubmit: any;
+    onSubmit: any;
+    control: any;
+    categories: Category[];
+    brands: Brand[];
+    register: any;
+    characteristics: Characteristic[];
+    addCharacteristic: () => void;
+    changeCharacteristic: (
+        title: string,
         value: string,
         number: number,
-    ) => {
-        setCharacteristics(
-            characteristics.map((i) =>
-                i.number === number ? { ...i, [key]: value } : i,
-            ),
-        );
-    };
+    ) => void;
+    removeCharacteristic: (number: number) => void;
+}
 
-    const removeСharacteristic = (number: number) => {
-        setCharacteristics(characteristics.filter((i) => i.number !== number));
-    };
-
-    const { control, handleSubmit, register } = useForm({});
-
-    const onSubmit = async (data: any) => {
-        const formData = new FormData();
-        formData.append('title', data.title);
-        formData.append('description', data.description);
-        formData.append('price', data.price);
-        formData.append('inStock', data.inStock);
-        formData.append('category', data.category);
-        formData.append('brand', data.brand);
-        formData.append('characteristics', JSON.stringify(characteristics));
-        for (let image of data.images) {
-            formData.append('images', image);
-        }
-        await addProduct(formData);
-    };
-
+function AddProductForm({
+    handleSubmit,
+    onSubmit,
+    control,
+    categories,
+    brands,
+    register,
+    characteristics,
+    addCharacteristic,
+    changeCharacteristic,
+    removeCharacteristic,
+}: IAddProductFormProps) {
     return (
         <form
-            id="addProductForm"
             className="flex flex-col gap-5 w-full"
             onSubmit={handleSubmit(onSubmit)}
         >
@@ -81,8 +52,8 @@ const AddProductForm = () => {
                         disablePortal
                         id="category"
                         options={categories}
-                        getOptionLabel={(option) => option.title}
-                        onChange={(_, data) => field.onChange(data.id)}
+                        getOptionLabel={(option) => option.value}
+                        onChange={(_, data) => field.onChange(data._id)}
                         renderInput={(params) => (
                             <TextField {...params} label="Категория" />
                         )}
@@ -99,8 +70,8 @@ const AddProductForm = () => {
                         disablePortal
                         id="brand"
                         options={brands}
-                        getOptionLabel={(option) => option.title}
-                        onChange={(_, data) => field.onChange(data.id)}
+                        getOptionLabel={(option) => option.value}
+                        onChange={(_, data) => field.onChange(data._id)}
                         renderInput={(params) => (
                             <TextField {...params} label="Бренд" />
                         )}
@@ -175,23 +146,17 @@ const AddProductForm = () => {
                         label="Значение свойства"
                     />
 
-                    <Button onClick={() => removeСharacteristic(i.number)}>
+                    <Button onClick={() => removeCharacteristic(i.number)}>
                         Удалить
                     </Button>
                 </Stack>
             ))}
 
-            <Button
-                onClick={handleSubmit(onSubmit)}
-                variant="outlined"
-                color="success"
-                type="submit"
-                form="addProductForm"
-            >
+            <Button variant="outlined" color="success" type="submit">
                 Добавить товар
             </Button>
         </form>
     );
-};
+}
 
 export default AddProductForm;

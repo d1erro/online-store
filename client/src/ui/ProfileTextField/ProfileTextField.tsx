@@ -5,26 +5,32 @@ export interface IProfileTextFieldProps {
     id: string;
     label: string;
     disabled: boolean;
+    helperText: any;
+    error: boolean;
 }
 
 const ProfileTextField: FC<IProfileTextFieldProps> = ({
     id,
     label,
     disabled,
+    helperText,
+    error,
     ...field
 }) => {
     return (
         <TextField
             InputLabelProps={{ shrink: true }}
+            {...field}
             sx={{
                 width: 500,
                 maxWidth: '100%',
             }}
-            {...field}
             id={id}
-            disabled={disabled}
             label={label}
             variant="outlined"
+            disabled={disabled}
+            helperText={helperText}
+            error={error}
         />
     );
 };
