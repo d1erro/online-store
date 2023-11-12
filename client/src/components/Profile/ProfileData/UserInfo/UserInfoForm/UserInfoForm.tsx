@@ -12,7 +12,7 @@ function UserInfoForm({
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex my-3 justify-between">
+                <div className="my-3 flex justify-between">
                     <Controller
                         name="first_name"
                         control={control}
@@ -44,7 +44,7 @@ function UserInfoForm({
                     />
                 </div>
 
-                <div className="flex my-3 justify-between">
+                <div className="my-3 flex justify-between">
                     <Controller
                         name="email"
                         control={control}
@@ -78,7 +78,7 @@ function UserInfoForm({
 
                 {!disabled && (
                     <button
-                        className="py-1 px-5 bg-gray-400 rounded"
+                        className="rounded bg-gray-400 px-5 py-1"
                         type="submit"
                     >
                         Сохранить

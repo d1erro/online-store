@@ -1,27 +1,52 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
+import { put } from '@vercel/blob';
 import * as uuid from 'uuid';
-import { join } from 'path';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class FilesService {
-    createFile(files): string[] {
+    async compressImage(image) {
+        return await sharp(image)
+            .webp({ effort: 3 })
+            .toBuffer()
+            .then((data) => data);
+    }
+
+    async uploadOneFile(file) {
         try {
-            const fileNames = [];
-            files.forEach((file) => {
-                const fileName = uuid.v4() + '.jpg';
-                fileNames.push(fileName);
-                const filePath = path.resolve(__dirname, '..', '..', 'static');
-                console.log(filePath);
-                if (!fs.existsSync(filePath)) {
-                    fs.mkdirSync(filePath, { recursive: true });
-                }
-                fs.writeFileSync(path.resolve(filePath, fileName), file.buffer);
+            const compressedFile = await this.compressImage(file.buffer);
+            const fileName = uuid.v4() + '.webp';
+            await put(fileName, compressedFile, {
+                access: 'public',
+                addRandomSuffix: false,
             });
-            return fileNames;
-        } catch (e) {
-            throw new HttpException('Ошибка при загрузке файла', 500);
+            return fileName;
+        } catch (error) {
+            throw new HttpException(
+                `Ошибка при загрузке файла "${file.originalname}" - ${error}`,
+                500,
+            );
+        }
+    }
+
+    async uploadFiles(files): Promise<string[]> {
+        try {
+            if (!files) {
+                throw new HttpException('Файлы не найдены', 500);
+            }
+
+            const fileUrls = [];
+
+            for (const file of files) {
+                const url = await this.uploadOneFile(file);
+                fileUrls.push(url);
+            }
+            return fileUrls;
+        } catch (error) {
+            throw new HttpException(
+                `Ошибка при загрузке файлов - ${error}`,
+                500,
+            );
         }
     }
 }

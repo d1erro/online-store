@@ -68,7 +68,7 @@ const UserInfo = ({ session }: { session: Session }) => {
 
     return (
         <>
-            <header className="flex gap-3 items-center">
+            <header className="flex items-center gap-3">
                 <h2 className="font-bold">Информация о покупателе</h2>
                 <button
                     className="text-sm"

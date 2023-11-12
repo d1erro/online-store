@@ -14,15 +14,15 @@ const categories = [
 function Header() {
     return (
         <header className="bg-black">
-            <div className="container flex items-center h-[65px]">
+            <div className="container flex h-[65px] items-center">
                 <HeaderLogo />
                 <HeaderSearch />
                 <HeaderButtons />
             </div>
 
-            <div className="bg-white h-[3px] w-full"></div>
+            <div className="h-[3px] w-full bg-white"></div>
 
-            <div className="container flex justify-between items-center bg-black h-[65px] w-full text-white">
+            <div className="container flex h-[65px] w-full items-center justify-between bg-black text-white">
                 {categories.map((category, index) => (
                     <p key={index}>{category}</p>
                 ))}

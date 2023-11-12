@@ -11,12 +11,12 @@ const Profile = ({
     currentPage: string;
 }) => {
     return (
-        <div className="flex flex-col mt-10">
+        <div className="mt-10 flex flex-col">
             <h1 className="text-center text-3xl">{pageTitle}</h1>
 
-            <div className="flex mt-10">
+            <div className="mt-10 flex">
                 <ProfileNav currentPage={currentPage} />
-                <div className="flex flex-col w-full ml-10">{children}</div>
+                <div className="ml-10 flex w-full flex-col">{children}</div>
             </div>
         </div>
     );

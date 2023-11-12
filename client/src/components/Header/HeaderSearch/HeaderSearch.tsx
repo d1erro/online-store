@@ -2,9 +2,9 @@ import SearchIcon from '@mui/icons-material/SearchOutlined';
 
 function HeaderSearch() {
     return (
-        <div className="flex flex-grow justify-center items-center">
+        <div className="flex flex-grow items-center justify-center">
             <input
-                className="w-[90%] rounded outline-none bg-white h-10 px-5"
+                className="h-10 w-[90%] rounded bg-white px-5 outline-none"
                 placeholder="Search"
             ></input>
 

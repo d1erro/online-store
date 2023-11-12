@@ -1,6 +1,5 @@
 import { ConflictException, HttpException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Product } from './schemas/product.schema';
@@ -23,39 +22,29 @@ export class ProductService {
                     'Продукт с таким названием уже существует',
                 );
             }
-            const fileNames = this.fileService.createFile(images);
+            const fileNames = await this.fileService.uploadFiles(images);
             const createdProduct = new this.productRepository(dto);
             createdProduct.images = fileNames;
-            //@ts-ignore
             createdProduct.characteristics = JSON.parse(dto.characteristics);
-            //@ts-ignore
             createdProduct.brand = new Types.ObjectId(dto.brand);
-            //@ts-ignore
             createdProduct.category = new Types.ObjectId(dto.category);
             return createdProduct.save();
         } catch (error) {
-            return error;
+            throw new HttpException(
+                `Ошибка при добавлении продукта - ${error}`,
+                500,
+            );
         }
     }
 
     findAll() {
-        const products = this.productRepository.find();
-        return products;
+        return this.productRepository.find();
     }
 
     getProductById(id: string) {
-        const product = this.productRepository
+        return this.productRepository
             .findOne({ _id: id })
             .populate('brand')
             .populate('category');
-        return product;
-    }
-
-    update(id: number, updateProductDto: UpdateProductDto) {
-        return `This action updates a #${id} product`;
-    }
-
-    remove(id: number) {
-        return `This action removes a #${id} product`;
     }
 }

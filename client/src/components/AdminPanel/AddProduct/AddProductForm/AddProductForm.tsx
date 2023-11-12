@@ -1,9 +1,4 @@
-import {
-    Controller,
-    ErrorOption,
-    FieldError,
-    FieldErrors,
-} from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { Autocomplete, Stack, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Brand, Category } from '@/types/AdminPanel/AdminPanel.types';
@@ -47,7 +42,7 @@ function AddProductForm({
 }: IAddProductFormProps) {
     return (
         <form
-            className="flex flex-col gap-5 w-full"
+            className="flex w-full flex-col gap-5"
             onSubmit={handleSubmit(onSubmit)}
         >
             <Controller
@@ -161,7 +156,7 @@ function AddProductForm({
                 placeholder="Выберите изображения"
                 type="file"
                 multiple
-                accept="image/jpeg"
+                accept="image/*"
                 required={true}
             />
 

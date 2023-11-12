@@ -1,9 +1,9 @@
 function CartCount() {
     return (
-        <div className="flex bg-black w-[200px] rounded-xl border-black border-2">
+        <div className="flex w-[200px] rounded-xl border-2 border-black bg-black">
             <button className="flex-1 text-white">-</button>
             <input
-                className="flex-1 flex w-[50px] h-[50px] text-center border-x-2"
+                className="flex h-[50px] w-[50px] flex-1 border-x-2 text-center"
                 defaultValue="1"
             ></input>
             <button className="flex-1 text-white">+</button>

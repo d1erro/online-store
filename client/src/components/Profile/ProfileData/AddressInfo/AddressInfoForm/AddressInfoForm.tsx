@@ -11,7 +11,7 @@ function AddressInfoForm({
 }: IAddressInfoFormProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex my-3 justify-between">
+            <div className="my-3 flex justify-between">
                 <Controller
                     name="region"
                     control={control}
@@ -43,7 +43,7 @@ function AddressInfoForm({
                 />
             </div>
 
-            <div className="flex my-3 justify-between">
+            <div className="my-3 flex justify-between">
                 <Controller
                     name="street"
                     control={control}
@@ -76,7 +76,7 @@ function AddressInfoForm({
             </div>
 
             {!disabled && (
-                <button className="py-1 px-5 bg-gray-400 rounded" type="submit">
+                <button className="rounded bg-gray-400 px-5 py-1" type="submit">
                     Сохранить
                 </button>
             )}

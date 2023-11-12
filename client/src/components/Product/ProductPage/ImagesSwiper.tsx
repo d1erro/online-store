@@ -18,7 +18,7 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
                 '--swiper-pagination-color': '#000000',
                 borderRadius: '15px',
             }}
-            lazy={true}
+            lazy="false"
             pagination={{
                 clickable: true,
             }}
@@ -29,11 +29,11 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
             {images.map((image, i) => (
                 <SwiperSlide key={i}>
                     <Image
-                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${image}`}
-                        loading="lazy"
+                        src={`https://${process.env.NEXT_PUBLIC_BACKEND_HOSTNAME_FOR_IMAGES}/${image}`}
                         alt=""
                         width={500}
                         height={500}
+                        priority
                     />
                     <div className="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                 </SwiperSlide>

@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    isNumber,
-    IsNumber,
-    IsNumberString,
-    IsString,
-    Length,
-} from 'class-validator';
+import { IsNumberString, IsString, Length } from 'class-validator';
 import { Prop } from '@nestjs/mongoose';
 import { Brand } from '../../brand/schemas/brand.schema';
 import { Category } from '../../category/schemas/category.schema';
@@ -65,19 +59,19 @@ export class CreateProductDto {
         description: 'Характеристики товара',
     })
     @Prop({ required: true })
-    characteristics: object[];
+    characteristics: string;
 
     @ApiProperty({
         example: Brand,
         description: 'Бренд товара',
     })
     @Prop({ required: true, unique: false })
-    brand: Brand;
+    brand: string;
 
     @ApiProperty({
         example: Category,
         description: 'Категория товара',
     })
     @Prop({ required: true, unique: false })
-    category: Category;
+    category: string;
 }

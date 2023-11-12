@@ -11,7 +11,7 @@ async function HeaderButtons() {
     return (
         <>
             {session !== null ? (
-                <div className="flex gap-4 ml-auto items-center">
+                <div className="ml-auto flex items-center gap-4">
                     <Link href={'/cart'}>
                         <LocalMall sx={{ color: 'white' }} fontSize="large" />
                     </Link>
@@ -24,7 +24,7 @@ async function HeaderButtons() {
                     </Link>
                 </div>
             ) : (
-                <div className="flex gap-4 ml-auto items-center">
+                <div className="ml-auto flex items-center gap-4">
                     <Link href={'/cart'}>
                         <LocalMall sx={{ color: 'white' }} fontSize="large" />
                     </Link>

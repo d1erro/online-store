@@ -14,7 +14,7 @@ async function ProductList() {
             </div>
         );
     }
-    return <p className="text-center mt-10">Products not found</p>;
+    return <p className="mt-10 text-center">Products not found</p>;
 }
 
 export default ProductList;
