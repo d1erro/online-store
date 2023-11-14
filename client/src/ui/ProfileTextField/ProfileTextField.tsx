@@ -21,10 +21,7 @@ const ProfileTextField: FC<IProfileTextFieldProps> = ({
         <TextField
             InputLabelProps={{ shrink: true }}
             {...field}
-            sx={{
-                width: 500,
-                maxWidth: '100%',
-            }}
+            fullWidth
             id={id}
             label={label}
             variant="outlined"

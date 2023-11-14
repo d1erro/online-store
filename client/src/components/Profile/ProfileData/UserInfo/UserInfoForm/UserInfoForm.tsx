@@ -12,7 +12,7 @@ function UserInfoForm({
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-3 flex justify-between">
+                <div className="my-3 flex flex-col justify-between gap-3 md:flex-row">
                     <Controller
                         name="first_name"
                         control={control}
@@ -44,7 +44,7 @@ function UserInfoForm({
                     />
                 </div>
 
-                <div className="my-3 flex justify-between">
+                <div className="my-3 flex flex-col justify-between gap-3 md:flex-row">
                     <Controller
                         name="email"
                         control={control}

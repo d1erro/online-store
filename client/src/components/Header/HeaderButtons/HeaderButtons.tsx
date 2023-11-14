@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import LocalMall from '@mui/icons-material/LocalMallOutlined';
 import AccountCircle from '@mui/icons-material/AccountCircleOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import CartButton from '@/components/Header/HeaderButtons/CartButton/CartButton';
 
 async function HeaderButtons() {
     const session = await getServerSession(authOptions);
@@ -12,9 +12,7 @@ async function HeaderButtons() {
         <>
             {session !== null ? (
                 <div className="ml-auto flex items-center gap-4">
-                    <Link href={'/cart'}>
-                        <LocalMall sx={{ color: 'white' }} fontSize="large" />
-                    </Link>
+                    <CartButton />
 
                     <Link href={'/profile'}>
                         <AccountCircle
@@ -25,9 +23,7 @@ async function HeaderButtons() {
                 </div>
             ) : (
                 <div className="ml-auto flex items-center gap-4">
-                    <Link href={'/cart'}>
-                        <LocalMall sx={{ color: 'white' }} fontSize="large" />
-                    </Link>
+                    <CartButton />
 
                     <Link href={'/login'}>
                         <LoginOutlinedIcon

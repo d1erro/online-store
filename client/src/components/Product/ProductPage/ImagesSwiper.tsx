@@ -29,7 +29,7 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
             {images.map((image, i) => (
                 <SwiperSlide key={i}>
                     <Image
-                        src={`https://${process.env.NEXT_PUBLIC_BACKEND_HOSTNAME_FOR_IMAGES}/${image}`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}
                         alt=""
                         width={500}
                         height={500}

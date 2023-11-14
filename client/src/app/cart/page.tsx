@@ -1,7 +1,7 @@
-import React from 'react';
+import Cart from '@/components/Cart/Cart';
 
-const Page: React.FC = () => {
-    return <div>Cart</div>;
+const Page = () => {
+    return <Cart />;
 };
 
 export default Page;

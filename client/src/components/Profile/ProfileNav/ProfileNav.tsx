@@ -8,8 +8,8 @@ interface ProfileMenuProps {
 
 const ProfileNav: FC<ProfileMenuProps> = ({ currentPage }) => {
     return (
-        <div className="flex h-[300px] w-[250px] flex-col items-center">
-            <div className="flex h-[300px] w-[250px] flex-col justify-center gap-5 rounded-3xl bg-black p-5">
+        <div className="hidden w-[20%] flex-col items-center md:flex">
+            <div className="flex w-full flex-col justify-center gap-5 rounded-3xl bg-black p-5">
                 <Link href="/profile" className="text-white">
                     {currentPage === 'profile' ? (
                         <p>- Профиль</p>

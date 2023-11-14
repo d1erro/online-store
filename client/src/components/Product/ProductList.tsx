@@ -7,7 +7,7 @@ async function ProductList() {
 
     if (products && products.length > 0) {
         return (
-            <div className="mt-10 grid grid-cols-3 gap-5">
+            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {products.map((product: IProduct) => {
                     return <ProductItem key={product._id} product={product} />;
                 })}

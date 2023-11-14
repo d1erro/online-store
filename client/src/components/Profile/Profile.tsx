@@ -16,7 +16,9 @@ const Profile = ({
 
             <div className="mt-10 flex">
                 <ProfileNav currentPage={currentPage} />
-                <div className="ml-10 flex w-full flex-col">{children}</div>
+                <div className="flex w-full flex-col md:ml-10 md:w-[80%]">
+                    {children}
+                </div>
             </div>
         </div>
     );

@@ -1,8 +1,8 @@
 import { getProductById } from '@/http/products/get-product-by-id';
 import { IProduct } from '@/types/Product/IProduct';
 import ImageSlider from '@/components/Product/ProductPage/ImagesSwiper';
-import CartCount from '@/components/Product/ProductPage/CartCount';
 import { formatPrice } from '@/utils/format-price';
+import CartButtons from '@/components/Product/ProductPage/CartButtons/CartButtons';
 
 async function ProductPage({ productId }: { productId: string }) {
     const product: IProduct = await getProductById(productId);
@@ -36,12 +36,11 @@ async function ProductPage({ productId }: { productId: string }) {
                         <span>{formatPrice.format(product.price)}</span>
                     </div>
 
-                    <div className="flex gap-8">
-                        <CartCount />
-
-                        <button className="rounded-xl bg-black px-14 py-3 text-white">
-                            Добавить в корзину
-                        </button>
+                    <div>
+                        <CartButtons
+                            productId={productId}
+                            productInStock={product.inStock}
+                        />
                     </div>
                 </div>
             </div>

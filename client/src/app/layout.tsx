@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Bebas_Neue, Inter } from 'next/font/google';
+import { Bebas_Neue, Roboto } from 'next/font/google';
 import Header from '@/components/Header/Header';
 import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
@@ -8,8 +8,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import AuthProvider from '@/providers/AuthProvider';
 import MyThemeProvider from '@/providers/MyThemeProvider';
 import { CssBaseline } from '@mui/material';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Online Store',
@@ -23,6 +21,8 @@ const bebasNeue = Bebas_Neue({
     preload: true,
 });
 
+const roboto = Roboto({ weight: '400', subsets: ['latin'], preload: true });
+
 export default async function RootLayout({
     children,
 }: {
@@ -31,7 +31,7 @@ export default async function RootLayout({
     const session = await getServerSession(authOptions);
     return (
         <html lang="ru" className={`${bebasNeue.variable}`}>
-            <body className={inter.className}>
+            <body className={roboto.className}>
                 <AuthProvider session={session}>
                     <MyThemeProvider>
                         <CssBaseline />

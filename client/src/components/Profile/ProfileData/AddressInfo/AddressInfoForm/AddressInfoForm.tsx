@@ -11,7 +11,7 @@ function AddressInfoForm({
 }: IAddressInfoFormProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="my-3 flex justify-between">
+            <div className="my-3 flex flex-col justify-between gap-3 md:flex-row">
                 <Controller
                     name="region"
                     control={control}
@@ -43,7 +43,7 @@ function AddressInfoForm({
                 />
             </div>
 
-            <div className="my-3 flex justify-between">
+            <div className="my-3 flex flex-col justify-between gap-3 md:flex-row">
                 <Controller
                     name="street"
                     control={control}

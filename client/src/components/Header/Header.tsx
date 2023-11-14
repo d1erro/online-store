@@ -22,7 +22,7 @@ function Header() {
 
             <div className="h-[3px] w-full bg-white"></div>
 
-            <div className="container flex h-[65px] w-full items-center justify-between bg-black text-white">
+            <div className="container hidden h-[65px] w-full items-center justify-between bg-black text-white lg:flex">
                 {categories.map((category, index) => (
                     <p key={index}>{category}</p>
                 ))}

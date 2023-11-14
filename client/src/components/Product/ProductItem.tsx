@@ -9,7 +9,7 @@ const ProductItem = ({ product }: { product: IProduct }) => {
             <div className="group relative gap-5 overflow-hidden rounded border p-3">
                 <div className="mb-5 flex justify-center">
                     <Image
-                        src={`https://${process.env.NEXT_PUBLIC_BACKEND_HOSTNAME_FOR_IMAGES}/${product.images[0]}`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${product.images[0]}`}
                         alt={product.title}
                         width={300}
                         height={300}
