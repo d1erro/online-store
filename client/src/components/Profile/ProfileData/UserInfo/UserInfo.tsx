@@ -11,8 +11,10 @@ import { Session } from 'next-auth';
 import { getUser } from '@/http/users/get-user';
 import CustomSnackbar from '@/ui/CustomSnackbar/CustomSnackbar';
 import { User } from '@/lib/types';
+import { Skeleton } from '@mui/material';
 
 const UserInfo = ({ session }: { session: Session }) => {
+    const [loading, setLoading] = useState<boolean>(true);
     const [user, setUser] = useState<User>();
     const [disabled, setDisabled] = useState<boolean>(true);
     const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
@@ -36,6 +38,7 @@ const UserInfo = ({ session }: { session: Session }) => {
                 setValue('phone', res.phone);
             },
         );
+        setLoading(false);
     }, []);
 
     const {
@@ -65,6 +68,10 @@ const UserInfo = ({ session }: { session: Session }) => {
             }
         });
     };
+
+    if (loading) {
+        return <Skeleton variant="rounded" height={200} />;
+    }
 
     return (
         <>

@@ -13,8 +13,10 @@ import CustomSnackbar from '@/ui/CustomSnackbar/CustomSnackbar';
 import { Session } from 'next-auth';
 import AddressInfoForm from '@/components/Profile/ProfileData/AddressInfo/AddressInfoForm/AddressInfoForm';
 import { schemaAddressInfoForm } from '@/components/Profile/ProfileData/AddressInfo/AddressInfoForm/schemaAddressInfoForm';
+import { Skeleton } from '@mui/material';
 
 const AddressInfo = ({ session }: { session: Session }) => {
+    const [loading, setLoading] = useState<boolean>(true);
     const [address, setAddress] = useState<IAddress | null>(null);
     const [disabled, setDisabled] = useState<boolean>(true);
     const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
@@ -49,6 +51,7 @@ const AddressInfo = ({ session }: { session: Session }) => {
             setValue('street', res.street);
             setValue('index', res.index);
         });
+        setLoading(false);
     }, []);
 
     const onSubmit: SubmitHandler<IAddressInfo> = async (data) => {
@@ -70,6 +73,10 @@ const AddressInfo = ({ session }: { session: Session }) => {
             }
         });
     };
+
+    if (loading) {
+        return <Skeleton variant="rounded" height={200} />;
+    }
 
     return (
         <>

@@ -2,29 +2,34 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ILoginFormInput } from '@/types/Login/Login.types';
+import LoginForm from '@/components/Auth/Login/LoginForm/LoginForm';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { schemaLoginForm } from '@/components/Auth/Login/LoginForm/schemaLoginForm';
+import Button from '@mui/material/Button';
+import Link from 'next/link';
 
-const LoginForm: FC = () => {
+const Login = () => {
+    const [error, setError] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+
     const router = useRouter();
 
     const {
-        register,
-        handleSubmit,
         control,
+        handleSubmit,
         formState: { errors },
-    } = useForm<ILoginFormInput>();
-
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    } = useForm<ILoginFormInput>({
+        resolver: zodResolver(schemaLoginForm),
+    });
 
     const onSubmit: SubmitHandler<ILoginFormInput> = async ({
         email,
         password,
     }) => {
         setLoading(true);
-
         try {
             const res = await signIn('credentials', {
                 email,
@@ -34,91 +39,45 @@ const LoginForm: FC = () => {
 
             if (res && res.error === 'CredentialsSignin') {
                 setLoading(false);
-                setError('Wrong login or password');
+                setError('Неверный логин или пароль');
             } else if (res && !res.error) {
-                setError(null);
+                setError('');
                 router.push('/profile');
                 router.refresh();
             } else {
                 setLoading(false);
-                setError('Something wrong. Please try again later.');
+                setError('Сервер не отвечает. Повторите попытку позже.');
             }
         } catch (error) {
             setLoading(false);
-            setError('Request timed out. Please try again later.');
+            setError(`Ошибка - ${error}. Повторите попытку позже.`);
         }
     };
 
-    const inputStyles =
-        'block w-full rounded-lg border p-2.5 text-sm text-black';
-
     return (
-        <div className="container mx-auto my-[5vh] max-w-[500px] rounded bg-gray-100 p-5">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={'grid grid-cols-1 gap-3'}>
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                            Email
-                        </label>
-                        <input
-                            {...register('email', {
-                                required: true,
-                            })}
-                            placeholder="user@mail.ru"
-                            className={inputStyles}
-                            disabled={loading}
-                        />
-                        {errors.email && (
-                            <p className="m-1 rounded bg-red-300 text-center text-sm">
-                                Email field is required
-                            </p>
-                        )}
-                    </div>
+        <div className="container my-[5vh] max-w-[500px] rounded border border-neutral-500 p-5">
+            <h2 className="mb-8 text-center text-xl">Авторизация</h2>
+            <LoginForm
+                control={control}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                errors={errors}
+                error={error}
+                loading={loading}
+            />
 
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                            Password
-                        </label>
-                        <input
-                            {...register('password', {
-                                required: true,
-                            })}
-                            placeholder="••••••••••"
-                            type="password"
-                            className={inputStyles}
-                            disabled={loading}
-                        />
-                        {errors.password && (
-                            <p className="m-1 rounded bg-red-300 text-center text-sm">
-                                Password field is required
-                            </p>
-                        )}
-                    </div>
-
-                    {error && (
-                        <p className="rounded bg-red-300 py-1 text-center text-sm">
-                            {error}
-                        </p>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="flex items-center justify-center rounded bg-amber-400 py-2 hover:bg-amber-500"
-                    >
-                        {loading && (
-                            <span
-                                className="mr-1 inline-block h-5 w-5 animate-spin rounded-full border-[3px] border-amber-600 border-t-transparent"
-                                role="status"
-                                aria-label="loading"
-                            ></span>
-                        )}
-                        Sign In
-                    </button>
-                </div>
-            </form>
+            <Link href="/registration">
+                <Button
+                    className="dark:bg-neutral-700"
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                >
+                    Регистрация
+                </Button>
+            </Link>
         </div>
     );
 };
 
-export default LoginForm;
+export default Login;

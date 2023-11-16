@@ -16,7 +16,6 @@ export const getAddressById = async (id: string, accessToken: string) => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                cache: 'force-cache',
             },
         );
         return response.json();

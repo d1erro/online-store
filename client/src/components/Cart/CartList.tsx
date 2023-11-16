@@ -1,21 +1,19 @@
-'use client';
-
 import CartItem from '@/components/Cart/CartItem';
-import Cart from '@/store/Cart';
+import { IProductCartInCart } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
 
-const CartList = observer(() => {
-    const cart = Cart.cart;
-
+const CartList = observer(({ cart }: { cart: IProductCartInCart[] }) => {
     return (
-        <section className="mx-auto basis-5/6 xl:mr-5 xl:basis-3/4">
-            {cart.map(
-                (product, index) =>
-                    product.count > 0 && (
-                        <CartItem key={index} product={product} />
-                    ),
-            )}
-        </section>
+        <div className="xl:w-3/4">
+            <section className="basis-5/6 xl:mr-5 xl:basis-3/4">
+                {cart.map(
+                    (product, index) =>
+                        product.count > 0 && (
+                            <CartItem key={index} product={product} />
+                        ),
+                )}
+            </section>
+        </div>
     );
 });
 

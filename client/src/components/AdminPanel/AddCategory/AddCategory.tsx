@@ -81,7 +81,11 @@ function AddCategory() {
     return (
         <>
             <div className="mt-10">
-                <Button variant="contained" onClick={() => setOpen(true)}>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => setOpen(true)}
+                >
                     Добавить категорию
                 </Button>
             </div>

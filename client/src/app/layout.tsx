@@ -36,7 +36,7 @@ export default async function RootLayout({
                     <MyThemeProvider>
                         <CssBaseline />
                         <Header />
-                        <main className="container mb-20">{children}</main>
+                        <main className="container">{children}</main>
                     </MyThemeProvider>
                 </AuthProvider>
             </body>

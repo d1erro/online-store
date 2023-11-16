@@ -1,18 +1,19 @@
-import { autorun, makeAutoObservable } from 'mobx';
+'use client';
+
+import { makeAutoObservable } from 'mobx';
 
 export interface IProductCartInCart {
     id: string;
+    price: number;
     count: number;
 }
 
-class Cart {
+class CartStore {
     cart: IProductCartInCart[] | [] = [];
     count = 1;
 
     constructor() {
         makeAutoObservable(this);
-        this.loadCartFromLocalStorage();
-        autorun(() => this.saveCartToLocalStorage());
     }
 
     incrementGlobalCount(productId: string, max: number) {
@@ -30,6 +31,7 @@ class Cart {
         if (currentProduct && currentProduct.count !== max) {
             currentProduct.count++;
         }
+        this.saveCartToLocalStorage();
     }
 
     decrementProductCount(productId: string) {
@@ -38,10 +40,12 @@ class Cart {
         if (currentProduct && currentProduct.count === 0) {
             this.removeProduct(productId);
         }
+        this.saveCartToLocalStorage();
     }
 
     removeProduct(productId: string) {
         this.cart = this.cart.filter((item) => item.id !== productId);
+        this.saveCartToLocalStorage();
     }
 
     loadCartFromLocalStorage() {
@@ -64,6 +68,10 @@ class Cart {
             productInCart.count += newProduct.count;
             this.count = 1;
         }
+        this.saveCartToLocalStorage();
     }
 }
-export default new Cart();
+
+const cartStore = new CartStore();
+
+export default cartStore;

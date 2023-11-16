@@ -12,6 +12,7 @@ import { IProductInfo } from '@/types/AdminPanel/IProductInfo.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schemaAddProductForm } from '@/components/AdminPanel/AddProduct/AddProductForm/schemaAddProductForm';
 import CustomSnackbar from '@/ui/CustomSnackbar/CustomSnackbar';
+import Loader from '@/ui/Loader/Loader';
 
 const AddProduct = () => {
     const [loading, setLoading] = useState(true);
@@ -113,7 +114,7 @@ const AddProduct = () => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <Loader />;
     }
 
     return (

@@ -1,5 +1,6 @@
 import {
     ConflictException,
+    HttpException,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
@@ -21,13 +22,20 @@ export class AuthService {
     async registration(dto: CreateUserDto) {
         const candidate = await this.userService.getUserByEmail(dto.email);
         if (candidate) {
-            throw new ConflictException('User with this email already exists');
+            throw new ConflictException('Электронная почта уже используется');
         }
-        const user = await this.userService.createUser({
-            ...dto,
-            password: await hash(dto.password, 10),
-        });
-        return user;
+        try {
+            const user = await this.userService.createUser({
+                ...dto,
+                password: await hash(dto.password, 10),
+            });
+            return user;
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при создании пользователя - ${e}`,
+                500,
+            );
+        }
     }
 
     async login(dto: LoginDto) {

@@ -4,10 +4,15 @@ import Link from 'next/link';
 import LocalMall from '@mui/icons-material/LocalMallOutlined';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import Cart from '@/store/Cart';
+import Cart from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 
 const CartButton = observer(() => {
+    useEffect(() => {
+        Cart.loadCartFromLocalStorage();
+    }, []);
+
     const cart = Cart.cart;
 
     return (

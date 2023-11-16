@@ -1,9 +1,9 @@
-import { Control, FieldErrors } from 'react-hook-form';
+import { Control, FieldErrors, SubmitHandler } from 'react-hook-form';
 
 export interface IUserInfoFormProps {
     handleSubmit: any;
-    onSubmit: any;
-    control: any;
+    onSubmit: SubmitHandler<IUserInfoFormInput>;
+    control: Control;
     disabled: boolean;
     errors: FieldErrors;
 }

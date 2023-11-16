@@ -16,7 +16,7 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
                 // @ts-ignore
                 '--swiper-navigation-color': '#000000',
                 '--swiper-pagination-color': '#000000',
-                borderRadius: '15px',
+                //borderRadius: '15px',
             }}
             lazy="false"
             pagination={{
@@ -27,13 +27,14 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
             className="mySwiper"
         >
             {images.map((image, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide key={i} className="select-none">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}
                         alt=""
-                        width={500}
-                        height={500}
+                        width={1000}
+                        height={1000}
                         priority
+                        className="rounded"
                     />
                     <div className="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                 </SwiperSlide>

@@ -7,7 +7,9 @@ const AdminPanel = () => {
     return (
         <div className="flex flex-col">
             <Link href="/admin/product/add">
-                <Button variant="contained">Добавить товар</Button>
+                <Button variant="contained" color="secondary">
+                    Добавить товар
+                </Button>
             </Link>
 
             <AddBrand />

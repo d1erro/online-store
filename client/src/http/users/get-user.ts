@@ -6,7 +6,6 @@ export const getUser = async (id: string, accessToken: string) => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${accessToken}`,
             },
-            cache: 'force-cache',
         }).then((res) => res.json());
     } catch (e) {
         console.log(e);

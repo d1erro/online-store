@@ -9,7 +9,7 @@ async function ProfileData() {
 
     if (session) {
         return (
-            <div className="flex w-full flex-col gap-5 rounded-3xl bg-gray-100 p-5">
+            <div className="flex w-full flex-col gap-5 rounded-3xl bg-gray-100 p-5 dark:bg-neutral-800">
                 <UserInfo session={session} />
                 <AddressInfo session={session} />
             </div>
