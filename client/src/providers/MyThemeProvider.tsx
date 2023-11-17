@@ -61,7 +61,6 @@ export default function MyThemeProvider({
     children: ReactNode;
 }): ReactNode {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
     const theme = useMemo(
         () => createTheme(getDesignTokens(prefersDarkMode ? 'dark' : 'light')),
         [prefersDarkMode],

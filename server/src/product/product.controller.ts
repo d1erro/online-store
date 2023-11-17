@@ -35,8 +35,18 @@ export class ProductController {
         return this.productService.findAll();
     }
 
+    @Get('search/:searchTerm')
+    getProductsBySearch(@Param('searchTerm') searchTerm: string) {
+        return this.productService.getProductsBySearch(searchTerm);
+    }
+
     @Get(':id')
     getProductById(@Param('id') id: string) {
         return this.productService.getProductById(id);
+    }
+
+    @Get('category/:title')
+    getProductsByCategory(@Param('title') title: string) {
+        return this.productService.getProductsByCategory(title);
     }
 }

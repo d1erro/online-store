@@ -22,7 +22,7 @@ function OrderTableItem({ product }: { product: IProductCartInCart }) {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="flex justify-between border-b py-3">
+        <div className="flex justify-between gap-3 border-b py-3">
             <p className="basis-3/4">{fetchProduct?.title}</p>
             <p className="basis-1/4 text-end font-bold">
                 {formatPrice.format(price(product.price, product.count))}

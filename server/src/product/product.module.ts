@@ -4,6 +4,7 @@ import { ProductController } from './product.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { FilesModule } from '../files/files.module';
+import { CategoryModule } from '../category/category.module';
 
 @Module({
     controllers: [ProductController],
@@ -12,6 +13,7 @@ import { FilesModule } from '../files/files.module';
             { name: Product.name, schema: ProductSchema },
         ]),
         FilesModule,
+        CategoryModule,
     ],
     providers: [ProductService],
 })

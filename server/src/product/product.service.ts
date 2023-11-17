@@ -4,12 +4,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Product } from './schemas/product.schema';
 import { FilesService } from '../files/files.service';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectModel(Product.name) private productRepository: Model<Product>,
         private fileService: FilesService,
+        private categoryService: CategoryService,
     ) {}
 
     async create(dto: CreateProductDto, images) {
@@ -38,13 +40,41 @@ export class ProductService {
     }
 
     findAll() {
-        return this.productRepository.find();
+        try {
+            return this.productRepository.find();
+        } catch (e) {
+            throw new HttpException(`Ошибка при получении товаров - ${e}`, 500);
+        }
+    }
+
+    getProductsBySearch(searchTerm: string): Promise<Product[]> {
+        const regex = new RegExp(searchTerm, 'i');
+        return this.productRepository.find({ title: { $regex: regex } }).exec();
     }
 
     getProductById(id: string) {
-        return this.productRepository
-            .findOne({ _id: id })
-            .populate('brand')
-            .populate('category');
+        try {
+            return this.productRepository
+                .findOne({ _id: id })
+                .populate('brand')
+                .populate('category');
+        } catch (e) {
+            throw new HttpException(`Ошибка при получении товара - ${e}`, 500);
+        }
+    }
+
+    async getProductsByCategory(title: string) {
+        try {
+            const category = await this.categoryService.findOneByTitle(title);
+            const products = await this.productRepository.find({
+                category: category._id,
+            });
+            return products;
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при получении товаров по категории - ${e}`,
+                500,
+            );
+        }
     }
 }

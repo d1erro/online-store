@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Bebas_Neue, Roboto } from 'next/font/google';
+import '@fontsource/inter';
+import { Bebas_Neue, Inter } from 'next/font/google';
 import Header from '@/components/Header/Header';
 import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
@@ -21,7 +22,7 @@ const bebasNeue = Bebas_Neue({
     preload: true,
 });
 
-const roboto = Roboto({ weight: '400', subsets: ['latin'], preload: true });
+const inter = Inter({ weight: '400', subsets: ['latin'], preload: true });
 
 export default async function RootLayout({
     children,
@@ -31,15 +32,15 @@ export default async function RootLayout({
     const session = await getServerSession(authOptions);
     return (
         <html lang="ru" className={`${bebasNeue.variable}`}>
-            <body className={roboto.className}>
-                <AuthProvider session={session}>
-                    <MyThemeProvider>
-                        <CssBaseline />
+            <AuthProvider session={session}>
+                <MyThemeProvider>
+                    <CssBaseline />
+                    <body className={inter.className}>
                         <Header />
-                        <main className="container">{children}</main>
-                    </MyThemeProvider>
-                </AuthProvider>
-            </body>
+                        <main className="container mb-20">{children}</main>
+                    </body>
+                </MyThemeProvider>
+            </AuthProvider>
         </html>
     );
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -17,12 +17,36 @@ export class CategoryService {
     }
 
     findAll() {
-        const categories = this.categoryRepository.find();
-        return categories;
+        try {
+            return this.categoryRepository.find();
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при получении категорий - ${e}`,
+                500,
+            );
+        }
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} category`;
+    findOneById(id: string) {
+        try {
+            return this.categoryRepository.findOne({ _id: id });
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при получении категории - ${e}`,
+                500,
+            );
+        }
+    }
+
+    findOneByTitle(title: string) {
+        try {
+            return this.categoryRepository.findOne({ title });
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при получении категории - ${e}`,
+                500,
+            );
+        }
     }
 
     update(id: number, updateCategoryDto: UpdateCategoryDto) {

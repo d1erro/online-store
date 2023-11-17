@@ -1,5 +1,3 @@
-'use client';
-
 import { makeAutoObservable } from 'mobx';
 
 export interface IProductCartInCart {
@@ -31,15 +29,15 @@ class CartStore {
         if (currentProduct && currentProduct.count !== max) {
             currentProduct.count++;
         }
+        if (currentProduct && currentProduct.count > max) {
+            currentProduct.count = max;
+        }
         this.saveCartToLocalStorage();
     }
 
     decrementProductCount(productId: string) {
         const currentProduct = this.cart.find((item) => item.id === productId);
-        if (currentProduct && currentProduct.count > 0) currentProduct.count--;
-        if (currentProduct && currentProduct.count === 0) {
-            this.removeProduct(productId);
-        }
+        if (currentProduct && currentProduct.count > 1) currentProduct.count--;
         this.saveCartToLocalStorage();
     }
 
