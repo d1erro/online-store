@@ -137,7 +137,7 @@ const RegistrationForm = ({
                                             }
                                             edge="end"
                                         >
-                                            {showPassword ? (
+                                            {showConfirmPassword ? (
                                                 <VisibilityOff />
                                             ) : (
                                                 <Visibility />

@@ -6,7 +6,7 @@ import { formatPrice } from '@/utils/format-price';
 const ProductItem = ({ product }: { product: IProduct }) => {
     return (
         <Link href={'/products/' + product._id}>
-            <div className="group relative gap-5 overflow-hidden rounded border border-neutral-400 p-3 dark:border-neutral-700">
+            <div className="group relative gap-5 overflow-hidden rounded border border-neutral-300 bg-white p-3 dark:border-neutral-700 dark:bg-inherit">
                 <div className="mb-5 flex justify-center">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${product.images[0]}`}

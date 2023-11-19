@@ -13,7 +13,7 @@ async function ProductPage({ productId }: { productId: string }) {
             </h2>
 
             <div className="flex flex-col justify-center lg:flex-row">
-                <div className="lg:w-[40%]">
+                <div className="rounded border border-neutral-300 bg-white dark:border-black dark:bg-inherit lg:w-[40%]">
                     <ImageSlider images={product.images} />
                 </div>
 

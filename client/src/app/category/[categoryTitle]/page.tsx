@@ -1,7 +1,7 @@
-import CategoryList from '@/components/Product/CategoryList';
+import CategoryPage from '@/components/CategoryPage/CategoryPage';
 
 async function Page({ params }: { params: { categoryTitle: string } }) {
-    return <CategoryList categoryTitle={params.categoryTitle} />;
+    return <CategoryPage categoryTitle={params.categoryTitle} />;
 }
 
 export default Page;

@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 function HeaderSearch() {
     const [searchParam, setSearchParam] = useState<string>('');
-    const [searchProducts, setSearchProducts] = useState<IProduct[] | []>([]);
+    const [searchProducts, setSearchProducts] = useState<IProduct[]>([]);
 
     const router = useRouter();
     const pathname = usePathname();
@@ -65,8 +65,11 @@ function HeaderSearch() {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        className="rounded bg-neutral-200 dark:bg-neutral-800"
+                        className="rounded bg-neutral-50 dark:bg-neutral-800"
                         placeholder="Поиск"
+                        InputProps={{
+                            ...params.InputProps,
+                        }}
                     />
                 )}
             />

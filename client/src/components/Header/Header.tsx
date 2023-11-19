@@ -22,7 +22,7 @@ async function Header() {
                 <HeaderMobileButton />
             </div>
 
-            <div className="hidden h-[3px] w-full bg-white lg:block"></div>
+            <div className="hidden h-[3px] w-full bg-neutral-50 dark:bg-neutral-800 lg:block"></div>
 
             <div className="container hidden h-[65px] w-full items-center justify-between bg-black text-white lg:flex">
                 {categories.map((category: ICategory) => (

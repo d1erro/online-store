@@ -1,6 +1,6 @@
 'use client';
 
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { updateUser } from '@/http/users/update-user';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,12 +10,11 @@ import { IUserInfoFormInput } from '@/types/Profile/UserInfo/UserInfo.types';
 import { Session } from 'next-auth';
 import { getUser } from '@/http/users/get-user';
 import CustomSnackbar from '@/ui/CustomSnackbar/CustomSnackbar';
-import { User } from '@/lib/types';
 import { Skeleton } from '@mui/material';
 
 const UserInfo = ({ session }: { session: Session }) => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<IUserInfoFormInput>();
     const [disabled, setDisabled] = useState<boolean>(true);
     const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
     const [snackBarIsSuccess, setSnackBarIsSuccess] = useState<boolean>(false);
@@ -28,18 +27,42 @@ const UserInfo = ({ session }: { session: Session }) => {
         setSnackBarIsOpen(false);
     };
 
-    useEffect(() => {
-        getUser(session.user._id, session.backendTokens.accessToken).then(
-            (res) => {
-                setUser(res);
-                setValue('first_name', res.first_name);
-                setValue('last_name', res.last_name);
-                setValue('email', res.email);
-                setValue('phone', res.phone);
-            },
+    const fetchUser = async () => {
+        const res = await getUser(
+            session.user._id,
+            session.backendTokens.accessToken,
         );
-        setLoading(false);
-    }, []);
+        const { first_name, last_name, email, phone } = res;
+        const responseUser = {
+            first_name,
+            last_name,
+            email,
+            phone,
+        };
+        if (res) setLoading(false);
+        setUser(responseUser);
+        return responseUser;
+    };
+
+    const saveUpdatedUser = async (data: IUserInfoFormInput) => {
+        const res = await updateUser(
+            session.user._id,
+            data,
+            session.backendTokens.accessToken,
+        );
+        if (res._id) {
+            setDisabled(true);
+            setSnackBarIsSuccess(true);
+            setSnackBarMessage('Данные успешно сохранены');
+            setSnackBarIsOpen(true);
+        }
+
+        if (res.error) {
+            setSnackBarIsSuccess(false);
+            setSnackBarMessage(res.message[0]);
+            setSnackBarIsOpen(true);
+        }
+    };
 
     const {
         control,
@@ -47,26 +70,13 @@ const UserInfo = ({ session }: { session: Session }) => {
         formState: { errors },
         setValue,
         clearErrors,
-    } = useForm({ resolver: zodResolver(schemaUserInfoForm) });
+    } = useForm<IUserInfoFormInput>({
+        resolver: zodResolver(schemaUserInfoForm),
+        defaultValues: fetchUser,
+    });
 
-    const onSubmit: SubmitHandler<IUserInfoFormInput> = async (data) => {
-        await updateUser(
-            session.user._id,
-            data,
-            session.backendTokens.accessToken,
-        ).then((res) => {
-            if (res._id) {
-                setDisabled(true);
-                setSnackBarIsSuccess(true);
-                setSnackBarMessage('Данные успешно сохранены');
-                setSnackBarIsOpen(true);
-            }
-            if (res.error) {
-                setSnackBarIsSuccess(false);
-                setSnackBarMessage(res.message[0]);
-                setSnackBarIsOpen(true);
-            }
-        });
+    const onSubmit: SubmitHandler<IUserInfoFormInput> = (data) => {
+        saveUpdatedUser(data);
     };
 
     if (loading) {
@@ -83,10 +93,10 @@ const UserInfo = ({ session }: { session: Session }) => {
                         disabled
                             ? () => setDisabled(false)
                             : () => {
-                                  setValue('first_name', user?.first_name);
-                                  setValue('last_name', user?.last_name);
-                                  setValue('email', user?.email);
-                                  setValue('phone', user?.phone);
+                                  setValue('first_name', user!.first_name);
+                                  setValue('last_name', user!.last_name);
+                                  setValue('email', user!.email);
+                                  setValue('phone', user!.phone);
                                   clearErrors();
                                   setDisabled(true);
                               }

@@ -3,7 +3,7 @@ import { Control, FieldErrors, SubmitHandler } from 'react-hook-form';
 export interface IUserInfoFormProps {
     handleSubmit: any;
     onSubmit: SubmitHandler<IUserInfoFormInput>;
-    control: Control;
+    control: Control<IUserInfoFormInput>;
     disabled: boolean;
     errors: FieldErrors;
 }

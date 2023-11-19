@@ -1,7 +1,7 @@
-import Home from '@/components/Home/Home';
+import HomePage from '@/components/HomePage/HomePage';
 
 const Page = () => {
-    return <Home />;
+    return <HomePage />;
 };
 
 export default Page;
