@@ -30,4 +30,6 @@ const ProfileNav: FC<ProfileMenuProps> = memo(({ currentPage }) => {
     );
 });
 
+ProfileNav.displayName = 'ProfileNav';
+
 export default ProfileNav;
