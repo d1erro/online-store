@@ -31,6 +31,7 @@ export class AddressController {
         return this.addressService.findAddressById(id);
     }
 
+    @UseGuards(JwtGuard)
     @Put(':id')
     updateAddress(
         @Param('id') id: Types.ObjectId,

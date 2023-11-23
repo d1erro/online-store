@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model, Types } from 'mongoose';
@@ -29,24 +29,30 @@ export class UserService {
     }
 
     async updateUser(id: string, dto: UpdateUserDto): Promise<User> {
-        const existingUser = await this.userRepository.findOne({ _id: id });
+        const filter = { _id: id };
+        const update = {
+            first_name: dto.first_name,
+            last_name: dto.last_name,
+            email: dto.email,
+            phone: dto.phone,
+        };
+        const options = {
+            new: true,
+            runValidators: true,
+        };
 
-        if (dto.email !== undefined) {
-            existingUser.email = dto.email;
+        try {
+            const updatedUser = await this.userRepository.findOneAndUpdate(
+                filter,
+                update,
+            );
+            return updatedUser;
+        } catch (e) {
+            throw new HttpException(
+                `Ошибка при обновлении пользователя - ${e}`,
+                500,
+            );
         }
-        if (dto.first_name !== undefined) {
-            existingUser.first_name = dto.first_name;
-        }
-        if (dto.last_name !== undefined) {
-            existingUser.last_name = dto.last_name;
-        }
-        if (dto.phone !== undefined) {
-            existingUser.phone = dto.phone;
-        }
-
-        const updatedUser = await existingUser.save();
-        updatedUser.password = null;
-        return updatedUser;
     }
 
     async updateAddresses(

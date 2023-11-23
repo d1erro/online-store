@@ -7,13 +7,15 @@ const ProductItem = ({ product }: { product: IProduct }) => {
     return (
         <Link href={'/products/' + product._id}>
             <div className="group relative gap-5 overflow-hidden rounded border border-neutral-300 bg-white p-3 dark:border-neutral-700 dark:bg-inherit">
-                <div className="mb-5 flex justify-center">
+                <div className="relative mb-5 h-[400px]">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${product.images[0]}`}
                         alt={product.title}
-                        width={300}
-                        height={300}
+                        fill
                         priority
+                        style={{
+                            objectFit: 'contain',
+                        }}
                         className="rounded duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black opacity-0 duration-300 group-hover:opacity-10 dark:bg-white"></div>

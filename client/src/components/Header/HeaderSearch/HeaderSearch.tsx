@@ -65,7 +65,7 @@ function HeaderSearch() {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        className="rounded bg-neutral-50 dark:bg-neutral-800"
+                        className="rounded bg-neutral-50 dark:bg-neutral-900"
                         placeholder="Поиск"
                         InputProps={{
                             ...params.InputProps,

@@ -16,24 +16,25 @@ export default function ImagesSwiper({ images }: { images: string[] }) {
                 // @ts-ignore
                 '--swiper-navigation-color': '#000000',
                 '--swiper-pagination-color': '#000000',
-                //borderRadius: '15px',
             }}
-            lazy="false"
+            lazy="true"
             pagination={{
                 clickable: true,
             }}
             navigation={true}
             modules={[Pagination, Navigation]}
-            className="mySwiper"
+            className="mySwiper absolute h-full"
         >
             {images.map((image, i) => (
                 <SwiperSlide key={i} className="select-none">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}
                         alt=""
-                        width={1000}
-                        height={1000}
-                        priority
+                        fill
+                        style={{
+                            objectFit: 'contain',
+                        }}
+                        loading={'lazy'}
                         className="rounded"
                     />
                     <div className="swiper-lazy-preloader swiper-lazy-preloader-black"></div>

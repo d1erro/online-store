@@ -2,6 +2,8 @@ import { Controller } from 'react-hook-form';
 import { Autocomplete, Stack, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Brand, Category } from '@/types/AdminPanel/AdminPanel.types';
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export interface Characteristic {
     title: string;
@@ -25,6 +27,8 @@ interface IAddProductFormProps {
     ) => void;
     removeCharacteristic: (number: number) => void;
     errors: any;
+    disabled: boolean;
+    loading: boolean;
 }
 
 function AddProductForm({
@@ -39,6 +43,8 @@ function AddProductForm({
     changeCharacteristic,
     removeCharacteristic,
     errors,
+    disabled,
+    loading,
 }: IAddProductFormProps) {
     return (
         <form
@@ -63,6 +69,7 @@ function AddProductForm({
                                 label="Категория"
                                 error={!!errors.category}
                                 helperText={errors.category?.message}
+                                disabled={disabled}
                             />
                         )}
                     />
@@ -87,6 +94,7 @@ function AddProductForm({
                                 label="Бренд"
                                 error={!!errors.brand}
                                 helperText={errors.brand?.message}
+                                disabled={disabled}
                             />
                         )}
                     />
@@ -104,6 +112,7 @@ function AddProductForm({
                         variant="outlined"
                         error={!!errors.title}
                         helperText={errors.title?.message}
+                        disabled={disabled}
                     />
                 )}
             />
@@ -118,6 +127,7 @@ function AddProductForm({
                         label="Описание"
                         error={!!errors.description}
                         helperText={errors.description?.message}
+                        disabled={disabled}
                     />
                 )}
             />
@@ -132,6 +142,7 @@ function AddProductForm({
                         label="Цена"
                         error={!!errors.price}
                         helperText={errors.price?.message}
+                        disabled={disabled}
                     />
                 )}
             />
@@ -146,6 +157,7 @@ function AddProductForm({
                         label="В наличии"
                         error={!!errors.inStock}
                         helperText={errors.inStock?.message}
+                        disabled={disabled}
                     />
                 )}
             />
@@ -158,6 +170,7 @@ function AddProductForm({
                 multiple
                 accept="image/*"
                 required={true}
+                disabled={disabled}
             />
 
             {errors.images && <p>{errors.images.message}</p>}
@@ -177,6 +190,7 @@ function AddProductForm({
                             )
                         }
                         label="Название свойства"
+                        disabled={disabled}
                     />
 
                     <TextField
@@ -190,17 +204,30 @@ function AddProductForm({
                             )
                         }
                         label="Значение свойства"
+                        disabled={disabled}
                     />
 
-                    <Button onClick={() => removeCharacteristic(i.number)}>
+                    <Button
+                        disabled={disabled}
+                        onClick={() => removeCharacteristic(i.number)}
+                    >
                         Удалить
                     </Button>
                 </Stack>
             ))}
 
-            <Button variant="outlined" color="success" type="submit">
-                Добавить товар
-            </Button>
+            <LoadingButton
+                type="submit"
+                loading={loading}
+                loadingPosition="end"
+                endIcon={<SendIcon />}
+                variant="outlined"
+                color="success"
+                fullWidth
+                className="mb-3 dark:bg-neutral-700"
+            >
+                <span>Добавить товар</span>
+            </LoadingButton>
         </form>
     );
 }

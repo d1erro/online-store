@@ -35,7 +35,9 @@ export default async function RootLayout({
             <AuthProvider session={session}>
                 <MyThemeProvider>
                     <CssBaseline />
-                    <body className={inter.className}>
+                    <body
+                        className={`${inter.className} antialiased dark:bg-neutral-900`}
+                    >
                         <Header />
                         <main className="container mb-20">{children}</main>
                     </body>

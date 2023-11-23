@@ -1,18 +1,9 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    Post,
-    Put,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './schemas/user.schema';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CurrentUserJwtGuard } from './guards/current-user-jwt.guard';
 
 @ApiTags('Users')
 @Controller('/users')
@@ -29,7 +20,7 @@ export class UserController {
 
     @ApiOperation({ summary: 'Update users info' })
     @ApiResponse({ status: 200, type: User })
-    @UseGuards(CurrentUserJwtGuard)
+    @UseGuards(JwtGuard)
     @Put(':id/update-info')
     async updateUserInfo(
         @Param('id') id: string,

@@ -56,10 +56,10 @@ const UserInfo = ({ session }: { session: Session }) => {
             setSnackBarMessage('Данные успешно сохранены');
             setSnackBarIsOpen(true);
         }
-
+        console.log(data);
         if (res.error) {
             setSnackBarIsSuccess(false);
-            setSnackBarMessage(res.message[0]);
+            setSnackBarMessage(res.message);
             setSnackBarIsOpen(true);
         }
     };

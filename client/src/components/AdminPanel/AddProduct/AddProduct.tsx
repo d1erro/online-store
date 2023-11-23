@@ -24,6 +24,8 @@ const AddProduct = () => {
     const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
     const [snackBarIsSuccess, setSnackBarIsSuccess] = useState<boolean>(false);
     const [snackBarMessage, setSnackBarMessage] = useState<string>('');
+    const [disabled, setDisabled] = useState(false);
+    const [loadingProductAdd, setLoadingProductAdd] = useState(false);
 
     const {
         control,
@@ -74,6 +76,8 @@ const AddProduct = () => {
     };
 
     const onSubmit: SubmitHandler<IProductInfo> = async (data) => {
+        setLoadingProductAdd(true);
+        setDisabled(true);
         const formData = new FormData();
         formData.append('title', data.title);
         formData.append('description', data.description);
@@ -111,6 +115,8 @@ const AddProduct = () => {
                 setSnackBarIsOpen(true);
             }
         });
+        setLoadingProductAdd(false);
+        setDisabled(false);
     };
 
     if (loading) {
@@ -131,6 +137,8 @@ const AddProduct = () => {
                 changeCharacteristic={changeCharacteristic}
                 removeCharacteristic={removeCharacteristic}
                 errors={errors}
+                disabled={disabled}
+                loading={loadingProductAdd}
             />
 
             <CustomSnackbar
